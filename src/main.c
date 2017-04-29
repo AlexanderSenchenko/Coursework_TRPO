@@ -1,40 +1,61 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "graph.h"
 
 int main()
 {
 	FILE *Matrix;
-	int matrix[5][5], arr_city[5];
+	int arr_city[5], act, numder_city = 0;
+	Graph *v;
 
 	Matrix = fopen("graph.txt", "r");
 	if (Matrix == NULL) {
 		return 0;
 	}
 
+	//Запись городов
 	for (int i = 0; i < 5; i++) {
-		fscanf(Matrix, "%d[^\n]", &arr_city[i]);	
+		fscanf(Matrix, "%d", &arr_city[i]);
+		numder_city++;
 	}
 
-	for (int i = 0; i < 5; i++) {
-		for (int j = 0; j < 5; j++) {
-			fscanf(Matrix, "%d", &matrix[i][j]);
-		}
-	}
+	v = graph_add(Matrix, numder_city);
+	if (v == NULL) {
+		graph_free(v);
+	} 
+	//printf("\n%d %d\n", v->line, v->column);
 
+	/*
+	//Запсь расстояний
+	for (int i = 0; i < 25; i++) {
+		fscanf(Matrix, "%d", &matrix[i]);
+	}
+	*/
+
+	//Менюшка
+	printf("Выберите действие:\n");
+	printf("1) Найти минимальное растояние между городами\n");
+	printf("2) Найти максимальное растояние между городами\n");
+	printf("3) Найти колличество различных путей между городами\n");
+	scanf("%d", &act);
+
+	/*
+	//Вывод городов
 	printf("\t");
 	for (int i = 0; i < 5; i++) {
 		printf("%d\t", arr_city[i]);
 	}
 	printf("\n");
+	*/
 
-	for (int i = 0; i < 5; i++) {
-		printf("%d\t", arr_city[i]);
-		for (int j = 0; j < 5; j++) {
-			printf("%d\t", matrix[i][j]);
-		}
-		printf("\n");
+	/*
+	//Вывод мтрицы связность + столбец городов
+	for (int i = 0; i < 25; i++) {
+		//printf("%d\t", arr_city[i]);
+		printf("%d\t", v->data[i]);
 	}
 	printf("\n");
+	*/
+
+	fclose(Matrix);
 
 	return 0;
 }
