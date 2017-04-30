@@ -37,6 +37,11 @@ int main()
 	printf("3) Найти колличество различных путей между городами\n");
 	scanf("%d", &act);
 
+	//test get_item
+	int test = get_item(0, 3, v->line);
+	printf("\n%d\n", test);
+	printf("%d\n", v->data[test]);
+
 	/*
 	//Вывод городов
 	printf("\t");

@@ -19,7 +19,6 @@ Graph *graph_add(FILE *in, int num)
 
 	v->line = num;
 	v->column = num;
-
 	return v;
 }
 
@@ -28,4 +27,9 @@ void graph_free(Graph *v){
 		free(v->data);
 		free(v);
 	}
+}
+
+int get_item(int i, int j, int line)
+{
+	return i * line + j;
 }

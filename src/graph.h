@@ -11,5 +11,6 @@ typedef struct {
 
 Graph *graph_add(FILE *in, int num);
 void graph_free(Graph *v);
+int get_item(int i, int j, int line);
 
 #endif
