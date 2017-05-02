@@ -2,33 +2,15 @@
 
 int main()
 {
-	FILE *Matrix;
-	int arr_city[5], act, numder_city = 0;
-	Graph *v;
+	int act;
+	Graph *g;
 
-	Matrix = fopen("graph.txt", "r");
-	if (Matrix == NULL) {
-		return 0;
-	}
-
-	//Запись городов
-	for (int i = 0; i < 5; i++) {
-		fscanf(Matrix, "%d", &arr_city[i]);
-		numder_city++;
-	}
-
-	v = graph_add(Matrix, numder_city);
-	if (v == NULL) {
-		graph_free(v);
+	g = graph_create(5);
+	if (g == NULL) {
+		graph_free(g);
 	} 
-	printf("\n%d %d\n", v->line, v->column);
 
-	/*
-	//Запсь расстояний
-	for (int i = 0; i < 25; i++) {
-		fscanf(Matrix, "%d", &matrix[i]);
-	}
-	*/
+	printf("\n%d\n", g->sity);
 
 	//Менюшка
 	printf("Выберите действие:\n");
@@ -43,14 +25,13 @@ int main()
 		printf("Введите города между которыми будем искать максимальный путь\n");
 		scanf("%d", &vertex1);
 		scanf("%d", &vertex2);
-		printf("\nMax distacne %d\n", max_distance(*v, vertex1, vertex2));
+		printf("\nMax distacne %d\n", max_distance(g, vertex1, vertex2));
 	}
-	/*//test get_item
-	int test = get_item(0, 1, v->line);
-	printf("\n%d\n", test);
-	printf("%d\n", v->data[test]);
 
-	
+	//test all_wey
+	printf("\n%d\n", all_wey(4, 5, g));
+
+	/*
 	//Вывод городов
 	printf("\t");
 	for (int i = 0; i < 5; i++) {
@@ -67,8 +48,6 @@ int main()
 	}
 	printf("\n");
 	*/
-
-	fclose(Matrix);
 
 	return 0;
 }

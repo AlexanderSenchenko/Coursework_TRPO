@@ -5,13 +5,14 @@
 
 typedef struct {
 	int *data;
-	int line;
-	int column;
+	int *vertex;
+	int sity;
 } Graph;
 
-Graph *graph_add(FILE *in, int num);
-void graph_free(Graph *v);
-int get_item(int i, int j, int line);
-int max_distance(Graph g, int vertex1, int vertex2);
+Graph *graph_create(int n);
+void graph_free(Graph *g);
+int get_item(int i, int j, Graph *g);
+int max_distance(Graph *g, int vertex1, int vertex2);
+int all_wey(int a, int b, Graph *g);
 
 #endif
