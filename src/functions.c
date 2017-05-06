@@ -56,7 +56,9 @@ int get_item(int i, int j, Graph *g)
 	return i * g->sity + j;
 }
 
-int all_wey(int a, int b, Graph *g)
+//Работает только в одном напрвалении
+//Например: из 1 в 4 работрает, а из 4 в 1 не работает
+int all_paths(int a, int b, Graph *g)
 {
 	int mass[b - a + 1];
 	for (int i = 0; i < g->sity; i++) {
@@ -71,9 +73,9 @@ int all_wey(int a, int b, Graph *g)
 		}
 	}
 
-	for (int i = 0; i < g->sity; i++) {
+	/*for (int i = 0; i < g->sity; i++) {
 		printf("%d ", mass[i]);
-	}
+	}*/
 
 	return mass[b - 1];
 }
