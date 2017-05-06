@@ -2,15 +2,14 @@
 
 int main()
 {
-	int act;
+	int act, vertex1, vertex2, paths;
 	Graph *g;
 
 	g = graph_create(5);
 	if (g == NULL) {
 		graph_free(g);
-	} 
+	}
 
-	printf("\n%d\n", g->sity);
 
 	//Менюшка
 	printf("Выберите действие:\n");
@@ -19,17 +18,21 @@ int main()
 	printf("3) Найти колличество различных путей между городами\n");
 	scanf("%d", &act);
 	
-	if (act == 2) {
-		int vertex1;
-		int vertex2;
-		printf("Введите города между которыми будем искать максимальный путь\n");
-		scanf("%d", &vertex1);
-		scanf("%d", &vertex2);
-		printf("\nMax distacne %d\n", max_distance(g, vertex1, vertex2));
-	}
+	printf("Введите города между которыми будем совершать действие\n");
+	printf("Vertex 1: ");
+	scanf("%d", &vertex1);
+	printf("Vertex 2: ");
+	scanf("%d", &vertex2);
 
-	//test all_wey
-	printf("\n%d\n", all_wey(4, 5, g));
+	switch (act) {
+	case 2:
+		printf("\nMax distacne %d\n", max_distance(g, vertex1, vertex2));
+	case 3:
+		paths = all_paths(vertex1, vertex2, g);
+		printf("Кол-во путей из %d в %d: %d\n", vertex1, vertex2, paths);
+	default:
+		break;
+	}
 
 	/*
 	//Вывод городов
