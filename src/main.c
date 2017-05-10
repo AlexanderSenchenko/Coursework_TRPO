@@ -10,6 +10,13 @@ int main()
 		graph_free(g);
 	}
 
+	printf("Vertex 1: ");
+	scanf("%d", &vertex1);
+	printf("Vertex 2: ");
+	scanf("%d", &vertex2);
+	paths = all_paths(vertex1, vertex2, g);
+	printf("Кол-во путей из %d в %d: %d\n", vertex1, vertex2, paths);
+	return 0;
 
 	//Менюшка
 	printf("Выберите действие:\n");

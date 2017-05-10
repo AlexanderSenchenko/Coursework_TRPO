@@ -60,24 +60,41 @@ int get_item(int i, int j, Graph *g)
 //Например: из 1 в 4 работрает, а из 4 в 1 не работает
 int all_paths(int a, int b, Graph *g)
 {
-	int mass[b - a + 1];
-	for (int i = 0; i < g->sity; i++) {
+	int index = 0, mass[b];
+	for (int i = 0; i < b; i++) {
 		mass[i] = 0;
 	}
+	index = path_in_graph(index, a - 1, b, g, mass);
+	for (int i = 0; i < b; i++) {
+		printf("%d\t", mass[i]);
+	}
+	printf("\n");
 
-	for (int  i = a - 1; i < b; i++) {
-		for (int j = 0; j < g->sity; j++) {
+	return index;
+}
+
+int path_in_graph(int index, int a, int b, Graph *g, int mass[])
+{
+	for (int  i = a; i < b; i++) {
+		if (mass[i] == 1) {
+			return index;
+		}
+		mass[i]++;
+		for (int j = 0; j < b; j++) {
 			if (g->data[get_item(i, j, g)] > 0) {
-				mass[j]++;
+				if (j == b - 1) {
+					index++;
+					mass[i]--;
+					return index;
+				}
+				index = path_in_graph(index, j, b, g, mass);
+			} else if (j == b - 1) {
+				mass[i]--;
+				return index;
 			}
 		}
 	}
-
-	/*for (int i = 0; i < g->sity; i++) {
-		printf("%d ", mass[i]);
-	}*/
-
-	return mass[b - 1];
+	return index;
 }
 
 int min(int a, int b)
