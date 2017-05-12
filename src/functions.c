@@ -60,12 +60,12 @@ int get_item(int i, int j, Graph *g)
 //Например: из 1 в 4 работрает, а из 4 в 1 не работает
 int all_paths(int a, int b, Graph *g)
 {
-	int index = 0, mass[b];
-	for (int i = 0; i < b; i++) {
+	int index = 0, mass[g->sity];
+	for (int i = 0; i < g->sity; i++) {
 		mass[i] = 0;
 	}
 	index = path_in_graph(index, a - 1, b, g, mass);
-	for (int i = 0; i < b; i++) {
+	for (int i = 0; i < g->sity; i++) {
 		printf("%d\t", mass[i]);
 	}
 	printf("\n");
@@ -75,24 +75,33 @@ int all_paths(int a, int b, Graph *g)
 
 int path_in_graph(int index, int a, int b, Graph *g, int mass[])
 {
-	for (int  i = a; i < b; i++) {
-		if (mass[i] == 1) {
+	for (int  i = a; i < g->sity; i++) {
+		if (mass[i] != 0) {
 			return index;
-		}
+		} //else if (i == b - 1) {
+			//continue;
+		//}
 		mass[i]++;
-		for (int j = 0; j < b; j++) {
+		for (int j = 0; j < g->sity; j++) {
 			if (g->data[get_item(i, j, g)] > 0) {
 				if (j == b - 1) {
 					index++;
-					mass[i]--;
-					return index;
+					//mass[i]--;
+					continue;
+					//return index;
 				}
 				index = path_in_graph(index, j, b, g, mass);
-			} else if (j == b - 1) {
-				mass[i]--;
-				return index;
 			}
+			//if (j + 1 == g->sity) {
+			//	mass[i]--;
+			//	return index;
+			//}
 		}
+		//if (i < g->sity) {
+		//	return index;
+		//}
+		mass[i]--;
+		return index;
 	}
 	return index;
 }
