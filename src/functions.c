@@ -39,7 +39,7 @@ Graph *graph_create(int n)
 
 	g->sity = num;
 
-	fclose(in);
+	//fclose(in);
 
 	return g;
 }
@@ -60,20 +60,20 @@ int get_item(int i, int j, Graph *g)
 
 int all_paths(int a, int b, Graph *g)
 {
-	int index = 0, mass[g->sity];
-	g->print_path = malloc(sizeof(int) * g->sity);
+	int index = 0, mass[g->sity], z = 0;
+	g->p_path = malloc(sizeof(int) * g->sity);
 	for (int i = 0; i < g->sity; i++) {
-		g->print_path[i] = 0;
+		g->p_path[i] = 0;
 	}
 	for (int i = 0; i < g->sity; i++) {
 		mass[i] = 0;
 	}
-	index = path_in_graph(index, a - 1, b, g, mass);
+	index = path_in_graph(index, a - 1, b, g, mass, z);
 
 	return index;
 }
 
-int path_in_graph(int index, int a, int b, Graph *g, int mass[])
+int path_in_graph(int index, int a, int b, Graph *g, int mass[], int z)
 {
 	for (int  i = a; i < g->sity; i++) {
 		if (mass[i] != 0) {
@@ -82,35 +82,45 @@ int path_in_graph(int index, int a, int b, Graph *g, int mass[])
 		mass[i]++;
 		for (int j = 0; j < g->sity; j++) {
 			if (g->data[get_item(i, j, g)] > 0) {
-				g->print_path[i] = i + 1;
+				g->p_path[z] = i + 1;
 				if (j == b - 1) {
 					index++;
-					g->print_path[i + 1] = j + 1;
+					g->p_path[z + 1] = j + 1;
 					output_path(g);
-					g->print_path[i + 1] = 0;
-					g->print_path[i] = 0;
+					g->p_path[z + 1] = 0;
 					continue;
 				}
-				index = path_in_graph(index, j, b, g, mass);
-				//g->print_path[i] = 0;
+				index = path_in_graph(index, j, b, g, mass, z + 1);
 			}
-			//g->print_path[i] = 0;
 		}
+		g->p_path[z] = 0;
 		mass[i]--;
-		//g->print_path[i] = 0;
 		return index;
 	}
 	return index;
 }
 
+void entry_path(Graph *g, int x)
+{
+	for (int i = 0; i < g->sity; i++) {
+		if (g->p_path[i] == 0 && x != 0) {
+			g->p_path[i] = x + 1;
+			break;
+		} else if (g->p_path[i] != 0 && x == 0) {
+			g->p_path[g->sity - i] = x;
+			break;
+		}
+	}
+}
+
 void output_path(Graph *g)
 {
 	for (int i = 0; i < g->sity; i++) {
-		if (g->print_path[i] == 0) {
+		if (g->p_path[i] == 0) {
 			continue;
 		}
-		printf("%d ", g->print_path[i]);
-		if (i + 1 != g->sity) {
+		printf("%d ", g->p_path[i]);
+		if (g->p_path[i + 1] != 0 && i + 1 != g->sity) {
 			printf("-> ");
 		}
 	}
