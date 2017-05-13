@@ -1,4 +1,6 @@
 #include "graph.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 Graph *graph_create(int n)
 {
@@ -37,7 +39,7 @@ Graph *graph_create(int n)
 
 	g->sity = num;
 
-	//fclose(in);
+	fclose(in);
 
 	return g;
 }
@@ -56,19 +58,17 @@ int get_item(int i, int j, Graph *g)
 	return i * g->sity + j;
 }
 
-//Работает только в одном напрвалении
-//Например: из 1 в 4 работрает, а из 4 в 1 не работает
 int all_paths(int a, int b, Graph *g)
 {
 	int index = 0, mass[g->sity];
+	g->print_path = malloc(sizeof(int) * g->sity);
+	for (int i = 0; i < g->sity; i++) {
+		g->print_path[i] = 0;
+	}
 	for (int i = 0; i < g->sity; i++) {
 		mass[i] = 0;
 	}
 	index = path_in_graph(index, a - 1, b, g, mass);
-	for (int i = 0; i < g->sity; i++) {
-		printf("%d\t", mass[i]);
-	}
-	printf("\n");
 
 	return index;
 }
@@ -78,32 +78,43 @@ int path_in_graph(int index, int a, int b, Graph *g, int mass[])
 	for (int  i = a; i < g->sity; i++) {
 		if (mass[i] != 0) {
 			return index;
-		} //else if (i == b - 1) {
-			//continue;
-		//}
+		}
 		mass[i]++;
 		for (int j = 0; j < g->sity; j++) {
 			if (g->data[get_item(i, j, g)] > 0) {
+				g->print_path[i] = i + 1;
 				if (j == b - 1) {
 					index++;
-					//mass[i]--;
+					g->print_path[i + 1] = j + 1;
+					output_path(g);
+					g->print_path[i + 1] = 0;
+					g->print_path[i] = 0;
 					continue;
-					//return index;
 				}
 				index = path_in_graph(index, j, b, g, mass);
+				//g->print_path[i] = 0;
 			}
-			//if (j + 1 == g->sity) {
-			//	mass[i]--;
-			//	return index;
-			//}
+			//g->print_path[i] = 0;
 		}
-		//if (i < g->sity) {
-		//	return index;
-		//}
 		mass[i]--;
+		//g->print_path[i] = 0;
 		return index;
 	}
 	return index;
+}
+
+void output_path(Graph *g)
+{
+	for (int i = 0; i < g->sity; i++) {
+		if (g->print_path[i] == 0) {
+			continue;
+		}
+		printf("%d ", g->print_path[i]);
+		if (i + 1 != g->sity) {
+			printf("-> ");
+		}
+	}
+	printf("\n");
 }
 
 int min(int a, int b)
