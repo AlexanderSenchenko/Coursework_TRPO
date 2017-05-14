@@ -116,7 +116,7 @@ void entry_path(Graph *g, int x)
 void output_path(Graph *g, int act)
 {
 	if (act == 2) {
-		//g->max[g->ind_max_path].vert = malloc(sizeof(int) * g->sity * 2);
+		g->max[g->ind_max_path].vert = malloc(sizeof(int) * g->sity * 2);
 		for (int i = 0; i < g->sity; i++) {
 			if (g->p_path[i] == 0) {
 				continue;
