@@ -24,5 +24,6 @@ int all_paths(int a, int b, Graph *g);
 void output_path(Graph *g);
 int path_in_graph(int index, int a, int b, Graph *g, int mass[], int z);
 int max_sum(Graph *g);
+void print_max_path(Graph *g);
 
 #endif

@@ -28,6 +28,8 @@ int main()
 	switch (act) {
 	case 2:
 		printf("\nMax distacne %d\n", max_distance(g, vertex1, vertex2));
+		printf("Path: ");
+		print_max_path(g);
 		break;
 	case 3:
 		paths = all_paths(vertex1, vertex2, g);

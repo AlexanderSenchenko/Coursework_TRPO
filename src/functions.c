@@ -131,6 +131,17 @@ void output_path(Graph *g)
 	printf("\n");
 }
 
+void print_max_path(Graph *g)
+{
+	for (int j = 0; j < g->max[g->max_path].count; j++) {	
+			printf("%d ", g->max[g->max_path].vert[j]);
+			if (j != g->max[g->max_path].count - 1){
+				printf("-> ");
+			}
+	}
+	printf("\n");
+}
+
 int max_sum(Graph *g) 
 {
 	int max = 0;
@@ -160,7 +171,6 @@ int max_distance(Graph *g, int vertex1, int vertex2)
 				g->max[i].count++;
 		}
 		j = 0;
-		
 	}
 	return max_sum(g);
 }
