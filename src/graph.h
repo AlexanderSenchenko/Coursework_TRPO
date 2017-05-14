@@ -6,23 +6,15 @@ typedef struct {
 	int *vertex;
 	int sity;
 	int *p_path;
-	struct max {
-		int *vert;
-		int count;
-	} *max;		//в этой стурктуре хранятся все возможные пути из одной вершины в другую
-	int ind_path;// индекс для записи путей в max
-	int *max_path;//это massiv индексov максимальнux путei из структуры max
-	int k; //счетчик максимальных путей
-
 } Graph;
 
 typedef struct {
 	struct paths {
 		int *vert;
-		int count;
-	} *paths;	
-	
-
+	} *paths;// массив структур для хранения всевозможных путей
+	int ind_path;//индекс для записи путей в массив структур paths 	
+	int *ind_max_or_min_path;// массив для хранения индексов максимальных либо минимальных путей, с помощью которого мы будем распечатывать сами пути
+	int count; // счетчик количества максимальных либо минимальных путей
 } Results;
 
 Graph *graph_create(int n);
