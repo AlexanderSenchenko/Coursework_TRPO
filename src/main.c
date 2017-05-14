@@ -28,9 +28,11 @@ int main()
 	switch (act) {
 	case 2:
 		printf("\nMax distacne %d\n", max_distance(g, vertex1, vertex2));
+		break;
 	case 3:
 		paths = all_paths(vertex1, vertex2, g);
 		printf("Кол-во путей из %d в %d: %d\n", vertex1, vertex2, paths);
+		break;
 	default:
 		break;
 	}
