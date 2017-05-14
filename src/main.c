@@ -27,7 +27,7 @@ int main()
 
 	switch (act) {
 	case 2:
-		printf("\nMax distacne %d\n", max_distance(g, vertex1, vertex2));
+		printf("\nМакимальное расстояние между %d и %d: %d\n", max_distance(g, vertex1, vertex2));
 		printf("Path: ");
 		print_max_path(g);
 		break;
