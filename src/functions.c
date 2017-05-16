@@ -48,6 +48,7 @@ void graph_free(Graph *g)
 {
 	if (g != NULL){
 		free(g->data);
+		free(g->p_path);
 		free(g->vertex);
 		free(g);
 	}
@@ -58,22 +59,23 @@ int get_item(int i, int j, Graph *g)
 	return i * g->sity + j;
 }
 
-int all_paths(int a, int b, Graph *g)
+int all_paths(int a, int b, Graph *g, int act)
 {
 	int index = 0, mass[g->sity], z = 0;
 	g->p_path = malloc(sizeof(int) * g->sity);
+	g->max = malloc(sizeof(int) * g->sity);
 	for (int i = 0; i < g->sity; i++) {
 		g->p_path[i] = 0;
 	}
 	for (int i = 0; i < g->sity; i++) {
 		mass[i] = 0;
 	}
-	index = path_in_graph(index, a - 1, b, g, mass, z);
+	index = path_in_graph(index, a - 1, b, g, mass, z, act);
 
 	return index;
 }
 
-int path_in_graph(int index, int a, int b, Graph *g, int mass[], int z)
+int path_in_graph(int index, int a, int b, Graph *g, int mass[], int z, int act)
 {
 	for (int  i = a; i < g->sity; i++) {
 		if (mass[i] != 0) {
@@ -86,11 +88,11 @@ int path_in_graph(int index, int a, int b, Graph *g, int mass[], int z)
 				if (j == b - 1) {
 					index++;
 					g->p_path[z + 1] = j + 1;
-					output_path(g);
+					output_path(g, act);
 					g->p_path[z + 1] = 0;
 					continue;
 				}
-				index = path_in_graph(index, j, b, g, mass, z + 1);
+				index = path_in_graph(index, j, b, g, mass, z + 1, act);
 			}
 		}
 		g->p_path[z] = 0;
@@ -113,108 +115,93 @@ void entry_path(Graph *g, int x)
 	}
 }
 
-void output_path(Graph *g)
+void output_path(Graph *g, int act)
 {
-	for (int i = 0; i < g->sity; i++) {
-		if (g->p_path[i] == 0) {
-			continue;
+	if (act == 2) {
+		//g->max[g->ind_max_path].vert = malloc(sizeof(int)*g->sity*2);
+		for (int i = 0; i < g->sity; i++) {
+			if (g->p_path[i] == 0) {
+				continue;
+			}
+			g->max[g->ind_max_path].vert[i] = g->p_path[i];
 		}
-		printf("%d ", g->p_path[i]);
-		if (g->p_path[i + 1] != 0 && i + 1 != g->sity) {
-			printf("-> ");
-		}
+		g->ind_max_path = g->ind_max_path + 1;
+	}else if (act == 3) {
+			for (int i = 0; i < g->sity; i++) {
+				if (g->p_path[i] == 0) {
+					continue;
+				}
+				printf("%d ", g->p_path[i]);
+				if (g->p_path[i + 1] != 0 && i + 1 != g->sity) {
+					printf("-> ");
+				}
+			}
+			printf("\n");
+
 	}
-	printf("\n");
 }
 
-int min(int a, int b)
+void print_max_path(Graph *g)
 {
-	return (a > b ? b : a);
-}
-
-//Пока что ищет критический путь во всем гарфе, не по определенным вершинам
-int max_distance(Graph *g, int vertex1, int vertex2)
-{
-	/*
-	vertex1 -= 1; //1
-	vertex2 -= 1; //3
-	*/
-
-	int i, j, t, k, m, p, count, n, critical[10]; // Path crictical number of vertex
-	int e[10], l[10]; //Early start, Latest start
-	n = g->sity;
-	int matr[n][n];
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) {
-			matr[i][j] = g->data[get_item(i, j, g)];
-			printf("%d\t", matr[i][j]);
-
+	for(int i = 0; i < g->k; i++) {
+		for (int j = 0; j < g->max[g->max_path[i]].count; j++) {	
+				printf("%d ", g->max[g->max_path[i]].vert[j]);
+				if (j != g->max[g->max_path[i]].count - 1){
+					printf("-> ");
+				}
 		}
 		printf("\n");
 	}
-	e[0] = 0;   
-	for (k = 1; k < n; k++) {
-		count = 0;
-		for (i = 0; i < n; i++) {
-			if (matr[i][k] != 0) {
-				count++;   
-				m = i;
-			}
-		}
-		if(count == 1) {
-			e[k] = e[m] + matr[m][k];
-		}
-		else{
-			e[k] = 0;
-			for (i = 0; i < n; i++) {
-				if (matr[i][k] != 0) {
-					t = e[i] + matr[i][k];
-					if (t > e[k])        
-					e[k] = t;
-				}
-			}
-		}
-	}
-	for (i = 0; i < n; i++) {
-		printf("%d ", e[i]);
-	}
-	printf("\n");
-	l[n - 1] = e[n - 1]; 
-	for (k = n - 2; k >= 0; k--) {
-		count = 0;
-		for (j = 0; j < n; j++) {
-			if (matr[k][j] != 0) {
-				count++;
-				p = j;
-			}
-		}
-		if (count == 1)
-			l[k] = l[p] - matr[k][p];
-		else {
-			l[k] = 1000;
-				for (j = 0; j < n; j++) {
-					if (matr[k][j] != 0) {
-						t = l[j] - matr[k][j];
-						if (t < l[k])
-						l[k] = t;     
-					}	
-				}
-		}
-	}
-	for (i = 0; i < n; i++) {
-		printf("%d ", l[i]);
-	}
-	printf("\n");
+}
 
-	for(i = 1, k = 0; i < n; i++){
-		if(e[i] == l[i]) {
-			critical[k++] = i;
-		}
+void free_max_paths(Graph *g)
+{
+	for(int i = 0; i < g->k; i++) {
+		g->max_path[i] = 0;
 	}
-	printf("\nThe critical path is: 0");
-	for(i = 0; i < k; i++) {
-		printf("->%d", critical[i]);
+	g->k = 0;
+}
+int max_sum(Graph *g) 
+{
+	int max = 0;
+	int sum = 0;
+	int ind = 0;
+	g->max_path = malloc(sizeof(int)*g->sity*2);
+	for (int i = 0; i < g->ind_max_path; i++) {
+		for (int j = 0; j < g->max[i].count - 1; j++) {	
+			sum = sum + g->data[get_item(g->max[i].vert[j] - 1, g->max[i].vert[j + 1] - 1, g)];
+		}
+		if (sum > max) {
+			max = sum;
+			free_max_paths(g);
+			ind = 0;
+			g->max_path[ind] = i;
+			g->k++;
+			ind++;
+		}
+		else if (sum == max) {
+			g->max_path[ind] = i;
+			ind++;
+			g->k++;
+		}
+		sum = 0;
 	}
 
-	return e[i];
+	return max;
+}
+
+int max_distance(Graph *g, int vertex1, int vertex2, int act)
+{
+	g->ind_max_path = 0;
+	all_paths(vertex1, vertex2, g, act);
+	int j = 0;
+	for (int i = 0; i < g->ind_max_path; i++) {
+		g->max[i].count = 0;
+		while ((g->max[i].vert[j] > 0) && (j < 10)) {
+				j++;
+				g->max[i].count = g->max[i].count + 1;
+		}
+		j = 0;
+	}
+	return max_sum(g);
 }

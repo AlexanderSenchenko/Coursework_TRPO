@@ -2,18 +2,30 @@
 #define GRAPH_H
 
 typedef struct {
+
 	int *data;
 	int *vertex;
 	int sity;
 	int *p_path;
+	struct max {
+		int vert[10];
+		int count;
+	} *max;		//в этой стурктуре хранятся все возможные пути из одной вершины в другую
+	int ind_max_path;// индекс для записи путей в max
+	int *max_path;//это massiv индексov максимальнux путei из структуры max
+	int k; //счетчик максимальных путей
+
 } Graph;
 
 Graph *graph_create(int n);
 void graph_free(Graph *g);
 int get_item(int i, int j, Graph *g);
-int max_distance(Graph *g, int vertex1, int vertex2);
-int all_paths(int a, int b, Graph *g);
-void output_path(Graph *g);
-int path_in_graph(int index, int a, int b, Graph *g, int mass[], int z);
+int max_distance(Graph *g, int vertex1, int vertex2, int act);
+int all_paths(int a, int b, Graph *g, int act);
+void output_path(Graph *g, int act);
+int path_in_graph(int index, int a, int b, Graph *g, int mass[], int z, int act);
+int max_sum(Graph *g);
+void print_max_path(Graph *g);
+void free_max_paths(Graph *g);
 
 #endif

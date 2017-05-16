@@ -27,10 +27,14 @@ int main()
 
 	switch (act) {
 	case 2:
-		printf("\nMax distacne %d\n", max_distance(g, vertex1, vertex2));
+		printf("Макимальное расстояние между %d и %d: %d\n", vertex1, vertex2, max_distance(g, vertex1, vertex2, act));
+		printf("Paths: %d\n", g->k);
+		print_max_path(g);
+		break;
 	case 3:
-		paths = all_paths(vertex1, vertex2, g);
+		paths = all_paths(vertex1, vertex2, g, act);
 		printf("Кол-во путей из %d в %d: %d\n", vertex1, vertex2, paths);
+		break;
 	default:
 		break;
 	}
