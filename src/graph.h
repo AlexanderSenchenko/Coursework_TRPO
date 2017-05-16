@@ -5,27 +5,32 @@ typedef struct {
 	int *data;
 	int *vertex;
 	int sity;
-	int *p_path;
 } Graph;
 
 typedef struct {
 	struct paths {
 		int *vert;
-	} *paths;// массив структур для хранения всевозможных путей
-	int ind_path;//индекс для записи путей в массив структур paths 	
-	int *ind_max_or_min_path;// массив для хранения индексов максимальных либо минимальных путей, с помощью которого мы будем распечатывать сами пути
-	int count; // счетчик количества максимальных либо минимальных путей
+	} *paths;
+	int *buf_path;
+	int ind_path;	
+	int *ind_max_or_min_path;
+	int count;
 } Results;
 
 Graph *graph_create(int n);
+Results *results_create(Graph *g);
 void graph_free(Graph *g);
 int get_item(int i, int j, Graph *g);
-int max_distance(Graph *g, int vertex1, int vertex2, int act);
-int all_paths(int a, int b, Graph *g, int act);
-void output_path(Graph *g, int act);
-int path_in_graph(int index, int a, int b, Graph *g, int mass[], int z, int act);
-int max_sum(Graph *g);
-void print_max_path(Graph *g);
-void free_max_paths(Graph *g);
+//
+//int max_distance(Graph *g, int vertex1, int vertex2, int act);
+//
+int all_paths(int a, int b, Graph *g);
+void output_path(Graph *g, Results *res);
+void path_in_graph(int a, int b, Graph *g, int mass[], int z, Results *res);
+void create_all_path(Results *res, Graph *g);
+//
+//int max_sum(Graph *g);
+//void print_max_path(Graph *g);
+//void free_max_paths(Graph *g);
 
 #endif
