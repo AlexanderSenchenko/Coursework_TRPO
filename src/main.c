@@ -7,7 +7,7 @@ int main()
 	int act, vertex1, vertex2, paths;
 	Graph *g;
 
-	g = graph_create(5);
+	g = graph_create();
 	if (g == NULL) {
 		graph_free(g);
 	}

@@ -17,7 +17,7 @@ typedef struct {
 	int count;
 } Results;
 
-Graph *graph_create(int n);
+Graph *graph_create();
 Results *results_create(Graph *g);
 void graph_free(Graph *g);
 int get_item(int i, int j, Graph *g);

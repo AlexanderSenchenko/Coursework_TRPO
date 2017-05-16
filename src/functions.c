@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-Graph *graph_create(int n)
+Graph *graph_create()
 {
 	FILE *in = fopen("graph.txt", "r");
 	if (in == NULL) {
@@ -14,28 +14,28 @@ Graph *graph_create(int n)
 		return NULL;
 	}
 	
-	g->data = malloc(sizeof(int) * n * n);
+	fscanf(in, "%d", &g->sity);
+
+	g->data = malloc(sizeof(int) * g->sity * g->sity);
 	if (g->data == NULL) {
 		free(g);
 		return NULL;
 	}
 
-	g->vertex = malloc(sizeof(int) * n);
+	g->vertex = malloc(sizeof(int) * g->sity);
 	if (g->vertex == NULL) {
 		free(g);
 		return NULL;
 	}
 	
 	//Запись городов
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < g->sity; i++) {
 		fscanf(in, "%d", &g->vertex[i]);
 	}
 
-	for (int i = 0; i < n * n; i++) {
+	for (int i = 0; i < g->sity * g->sity; i++) {
 		fscanf(in, "%d", &g->data[i]);
 	}
-
-	g->sity = n;
 
 	//fclose(in);
 
@@ -114,7 +114,7 @@ void create_all_path(Results *res, Graph *g)
 {
 	if (res->paths[res->ind_path].vert == NULL) {
 		res->paths[res->ind_path].vert = malloc(sizeof(int) * (g->sity + 1));
-		for (int i = 0; i < g->sity; i++) {
+		for (int i = 0; i < g->sity + 1; i++) {
 			res->paths[res->ind_path].vert[i] = 0;
 		}
 	}
