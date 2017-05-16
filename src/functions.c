@@ -4,7 +4,6 @@
 
 Graph *graph_create(int n)
 {
-	int num = 0;
 	FILE *in = fopen("graph.txt", "r");
 	if (in == NULL) {
 		return 0;
@@ -14,30 +13,29 @@ Graph *graph_create(int n)
 	if (g == NULL) {
 		return NULL;
 	}
-
-	g->data = malloc(sizeof(int) * num * num);
+	
+	g->data = malloc(sizeof(int) * n * n);
 	if (g->data == NULL) {
 		free(g);
 		return NULL;
 	}
 
-	g->vertex = malloc(sizeof(int) * 5);
+	g->vertex = malloc(sizeof(int) * n);
 	if (g->vertex == NULL) {
 		free(g);
 		return NULL;
 	}
-
+	
 	//Запись городов
 	for (int i = 0; i < n; i++) {
 		fscanf(in, "%d", &g->vertex[i]);
-		num++;
 	}
 
-	for (int i = 0; i < num * num; i++) {
+	for (int i = 0; i < n * n; i++) {
 		fscanf(in, "%d", &g->data[i]);
 	}
 
-	g->sity = num;
+	g->sity = n;
 
 	//fclose(in);
 
@@ -62,7 +60,7 @@ int get_item(int i, int j, Graph *g)
 int all_paths(int a, int b, Graph *g, int act)
 {
 	int index = 0, mass[g->sity], z = 0;
-	g->p_path = malloc(sizeof(int) * g->sity);
+	g->p_path = malloc(sizeof(int) * g->sity + 1);
 	g->max = malloc(sizeof(int) * g->sity);
 	for (int i = 0; i < g->sity; i++) {
 		g->p_path[i] = 0;
@@ -118,7 +116,7 @@ void entry_path(Graph *g, int x)
 void output_path(Graph *g, int act)
 {
 	if (act == 2) {
-		//g->max[g->ind_max_path].vert = malloc(sizeof(int)*g->sity*2);
+		//g->max[g->ind_max_path].vert = malloc(sizeof(int) * g->sity * 2);
 		for (int i = 0; i < g->sity; i++) {
 			if (g->p_path[i] == 0) {
 				continue;
@@ -126,7 +124,7 @@ void output_path(Graph *g, int act)
 			g->max[g->ind_max_path].vert[i] = g->p_path[i];
 		}
 		g->ind_max_path = g->ind_max_path + 1;
-	}else if (act == 3) {
+	} else if (act == 3) {
 			for (int i = 0; i < g->sity; i++) {
 				if (g->p_path[i] == 0) {
 					continue;
