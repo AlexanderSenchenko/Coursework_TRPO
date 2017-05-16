@@ -7,7 +7,7 @@ int main()
 	int act, vertex1, vertex2, paths;
 	Graph *g;
 
-	g = graph_create(5);
+	g = graph_create();
 	if (g == NULL) {
 		graph_free(g);
 	}
@@ -27,12 +27,12 @@ int main()
 
 	switch (act) {
 	case 2:
-		printf("Макимальное расстояние между %d и %d: %d\n", vertex1, vertex2, max_distance(g, vertex1, vertex2, act));
-		printf("Paths: %d\n", g->k);
-		print_max_path(g);
+		//printf("Макимальное расстояние между %d и %d: %d\n", vertex1, vertex2, max_distance(g, vertex1, vertex2, act));
+		//printf("Paths: %d\n", g->k);
+		//print_max_path(g);
 		break;
 	case 3:
-		paths = all_paths(vertex1, vertex2, g, act);
+		paths = all_paths(vertex1, vertex2, g);
 		printf("Кол-во путей из %d в %d: %d\n", vertex1, vertex2, paths);
 		break;
 	default:
