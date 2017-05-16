@@ -2,20 +2,28 @@
 #define GRAPH_H
 
 typedef struct {
-
 	int *data;
 	int *vertex;
 	int sity;
 	int *p_path;
 	struct max {
-		int vert[10];
+		int *vert;
 		int count;
 	} *max;		//в этой стурктуре хранятся все возможные пути из одной вершины в другую
-	int ind_max_path;// индекс для записи путей в max
+	int ind_path;// индекс для записи путей в max
 	int *max_path;//это massiv индексov максимальнux путei из структуры max
 	int k; //счетчик максимальных путей
 
 } Graph;
+
+typedef struct {
+	struct paths {
+		int *vert;
+		int count;
+	} *paths;	
+	
+
+} Results;
 
 Graph *graph_create(int n);
 void graph_free(Graph *g);
