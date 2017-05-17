@@ -12,6 +12,8 @@ int main()
 		graph_free(g);
 	}
 
+	Results *res = results_create(g);
+
 	printf("Меню\n");
 	printf("1) Найти минимальное растояние между городами\n");
 	printf("2) Найти максимальное растояние между городами\n");
@@ -27,13 +29,14 @@ int main()
 
 	switch (act) {
 	case 2:
-		//printf("Макимальное расстояние между %d и %d: %d\n", vertex1, vertex2, max_distance(g, vertex1, vertex2, act));
-		//printf("Paths: %d\n", g->k);
-		//print_max_path(g);
+		printf("Макимальное расстояние между %d и %d: %d\n", vertex1, vertex2, max_distance(g, vertex1, vertex2, res));
+		printf("Paths: %d\n", res->count);
+		output_path(g, res, act);
 		break;
 	case 3:
-		paths = all_paths(vertex1, vertex2, g);
+		paths = all_paths(vertex1, vertex2, g, res);
 		printf("Кол-во путей из %d в %d: %d\n", vertex1, vertex2, paths);
+		output_path(g, res, act);
 		break;
 	default:
 		break;

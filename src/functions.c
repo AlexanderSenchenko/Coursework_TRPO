@@ -68,17 +68,14 @@ int get_item(int i, int j, Graph *g)
 	return i * g->sity + j;
 }
 
-int all_paths(int a, int b, Graph *g)
+int all_paths(int a, int b, Graph *g, Results *res)
 {
 	int mass[g->sity], z = 0;
-	Results *res = results_create(g);
 	
 	for (int i = 0; i < g->sity; i++) {
 		mass[i] = 0;
 	}
 	path_in_graph(a - 1, b, g, mass, z, res);
-
-	output_path(g, res);
 
 	return res->ind_path;
 }
@@ -123,84 +120,80 @@ void create_all_path(Results *res, Graph *g)
 	}
 }
 
-void output_path(Graph *g, Results *res)
+void output_path(Graph *g, Results *res, int act)
 {
-	for (int i = 0; i < res->ind_path; i++) {
-		for (int j = 0; j < g->sity + 1; j++) {
-			if (res->paths[i].vert[j] == 0) {
-				continue;
-			}
-			printf("%d ", res->paths[i].vert[j]);
-			if (res->paths[i].vert[j + 1] != 0 && j + 1 != g->sity + 1) {
-				printf("-> ");
-			}
-		}
-		printf("\n");
-	}
-}
-
-/*
-void print_max_path(Graph *g)
-{
-	for(int i = 0; i < g->k; i++) {
-		for (int j = 0; j < g->max[g->max_path[i]].count; j++) {	
-				printf("%d ", g->max[g->max_path[i]].vert[j]);
-				if (j != g->max[g->max_path[i]].count - 1){
+	if (act == 3) {
+		for (int i = 0; i < res->ind_path; i++) {
+			for (int j = 0; j < g->sity + 1; j++) {
+				if (res->paths[i].vert[j] == 0) {
+					continue;
+				}
+				printf("%d ", res->paths[i].vert[j]);
+				if (res->paths[i].vert[j + 1] != 0 && j + 1 != g->sity + 1) {
 					printf("-> ");
 				}
+			}
+			printf("\n");
 		}
-		printf("\n");
+	}
+	else { 
+		for (int i = 0; i < res->count; i++) {
+			for (int j = 0; j < g->sity + 1; j++) {
+				if (res->paths[res->ind_max_or_min_path[i]].vert[j] == 0) {
+					continue;
+				}
+				printf("%d ", res->paths[res->ind_max_or_min_path[i]].vert[j]);
+				if (res->paths[res->ind_max_or_min_path[i]].vert[j + 1] != 0 && j + 1 != g->sity + 1) {
+					printf("-> ");
+				}
+			}
+			printf("\n");
+		}
 	}
 }
 
-void free_max_paths(Graph *g)
+void free_max_or_min_paths(Results *res)
 {
-	for(int i = 0; i < g->k; i++) {
-		g->max_path[i] = 0;
+	for(int i = 0; i < res->count; i++) {
+		res->ind_max_or_min_path[i] = 0;
 	}
-	g->k = 0;
+	res->count = 0;
 }
-int max_sum(Graph *g) 
+
+int max_sum(Graph *g, Results *res) 
 {
 	int max = 0;
 	int sum = 0;
 	int ind = 0;
-	g->max_path = malloc(sizeof(int)*g->sity*2);
-	for (int i = 0; i < g->ind_max_path; i++) {
-		for (int j = 0; j < g->max[i].count - 1; j++) {	
-			sum = sum + g->data[get_item(g->max[i].vert[j] - 1, g->max[i].vert[j + 1] - 1, g)];
+	for (int i = 0; i < res->ind_path; i++) {
+		int j = 0;
+		while ((res->paths[i].vert[j] > 0) && (res->paths[i].vert[j + 1] > 0)) {	
+			sum = sum + g->data[get_item(res->paths[i].vert[j] - 1, res->paths[i].vert[j + 1] - 1, g)];
+			j++;
 		}
 		if (sum > max) {
 			max = sum;
-			free_max_paths(g);
+			free_max_or_min_paths(res);
 			ind = 0;
-			g->max_path[ind] = i;
-			g->k++;
+			res->ind_max_or_min_path[ind] = i;
+			res->count++;
 			ind++;
 		}
 		else if (sum == max) {
-			g->max_path[ind] = i;
+			res->ind_max_or_min_path[ind] = i;
 			ind++;
-			g->k++;
+			res->count++;
 		}
 		sum = 0;
 	}
-
 	return max;
 }
 
-int max_distance(Graph *g, int vertex1, int vertex2, int act)
+int max_distance(Graph *g, int vertex1, int vertex2, Results *res)
 {
-	g->ind_max_path = 0;
-	all_paths(vertex1, vertex2, g, act);
-	int j = 0;
-	for (int i = 0; i < g->ind_max_path; i++) {
-		g->max[i].count = 0;
-		while ((g->max[i].vert[j] > 0) && (j < 10)) {
-				j++;
-				g->max[i].count = g->max[i].count + 1;
-		}
-		j = 0;
-	}
-	return max_sum(g);
-}*/
+	res->count = 0;
+	res->ind_max_or_min_path = malloc(sizeof(int)*g->sity * 2);
+	all_paths(vertex1, vertex2, g, res);
+
+	return max_sum(g, res);
+}
