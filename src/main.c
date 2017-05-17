@@ -28,8 +28,13 @@ int main()
 	scanf("%d", &vertex2);
 
 	switch (act) {
+	case 1:
+		printf("Минимальное расстояние между %d и %d: %d\n", vertex1, vertex2, min_distance(g, vertex1, vertex2, res));
+		printf("Paths: %d\n", res->count);
+		output_path(g, res, act);
+		break;
 	case 2:
-		printf("Макимальное расстояние между %d и %d: %d\n", vertex1, vertex2, max_distance(g, vertex1, vertex2, res));
+		printf("Максимальное расстояние между %d и %d: %d\n", vertex1, vertex2, max_distance(g, vertex1, vertex2, res));
 		printf("Paths: %d\n", res->count);
 		output_path(g, res, act);
 		break;

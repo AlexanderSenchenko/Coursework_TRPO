@@ -197,3 +197,41 @@ int max_distance(Graph *g, int vertex1, int vertex2, Results *res)
 
 	return max_sum(g, res);
 }
+
+int min_sum(Graph *g, Results *res) 
+{
+	int min = 10000;
+	int sum = 0;
+	int ind = 0;
+	for (int i = 0; i < res->ind_path; i++) {
+		int j = 0;
+		while ((res->paths[i].vert[j] > 0) && (res->paths[i].vert[j + 1] > 0)) {	
+			sum = sum + g->data[get_item(res->paths[i].vert[j] - 1, res->paths[i].vert[j + 1] - 1, g)];
+			j++;
+		}
+		if (sum < min) {
+			min = sum;
+			free_max_or_min_paths(res);
+			ind = 0;
+			res->ind_max_or_min_path[ind] = i;
+			res->count++;
+			ind++;
+		}
+		else if (sum == min) {
+			res->ind_max_or_min_path[ind] = i;
+			ind++;
+			res->count++;
+		}
+		sum = 0;
+	}
+	return min;
+}
+
+int min_distance(Graph *g, int vertex1, int vertex2, Results *res)
+{
+	res->count = 0;
+	res->ind_max_or_min_path = malloc(sizeof(int)*g->sity * 2);
+	all_paths(vertex1, vertex2, g, res);
+
+	return min_sum(g, res);
+}
