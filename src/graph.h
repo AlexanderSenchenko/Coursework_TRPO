@@ -17,7 +17,7 @@ typedef struct {
 	int count;
 } Results;
 
-Graph *graph_create();
+Graph *graph_create(int num);
 Results *results_create(Graph *g);
 void graph_free(Graph *g);
 int get_item(int i, int j, Graph *g);
@@ -33,4 +33,6 @@ int min_sum(Graph *g, Results *res);
 void create_graph_image(Graph *g);
 void results_free(Results *res);
 int input_validation(Graph *g);
+int check_vertex();
+
 #endif

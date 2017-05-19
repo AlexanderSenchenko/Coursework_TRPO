@@ -5,46 +5,72 @@
 #include <ctype.h>
 #include <string.h>
 
+int check_vertex()
+{
+	FILE *in = fopen("graph.txt", "r");
+	if (in == NULL) {
+		return 0;
+	}
+
+	int vertex = 0;
+	char str[5];
+	if (fgets(str, 6, in) == NULL) {
+		printf("Добавьте в файл кол-во вершин до 1000\n");
+		fclose(in);
+		return -1;
+	}
+	fclose(in);
+	if (strlen(str)  > 4) {
+		printf("Вы ввели не корректное число вершин(>999)\n");
+		return -1;
+	}
+
+	for(int i = 0; i < strlen(str) - 1; i++) {
+		if (!(isdigit(str[i]))) {
+			printf("Кол-во вершин не число\n");
+			return -1;
+		}
+	}
+	vertex = atoi(str);
+	if ((vertex != 0) && (vertex > 0)) {
+		return vertex;
+	}
+	else {
+		printf("Кол-во вершин равно нулю, либо кол-во вершин отрицательное\n");
+		return -1;
+	}
+}
+
 int input_validation(Graph *g)
 {
 	FILE *in = fopen("graph.txt", "r");
 	if (in == NULL) {
 		return 0;
 	}
-	//кол-во вершин
-	char city[3];
-	fscanf(in, "%c", city);
-	int prov = 1;
-	for (int  i = 0; i < strlen(city); i++) {
-		if (!(isdigit(city[i]))) {
-			prov = 0;
-		}
-	}
-	if (prov == 1) {
-		g->sity = atoi(city);
-	}
-
+	int vertex;
+	fscanf(in, "%d", &vertex);
 	//Запись городов
 	for (int i = 0; i < g->sity; i++) {
 		fscanf(in, "%d", &g->vertex[i]);
+		//memset(str1, 0 ,strlen(str1));
 	}
 	//Запись вес ребер
 	for (int i = 0; i < g->sity * g->sity; i++) {
 		fscanf(in, "%d", &g->data[i]);
 	}
-
+	
 	fclose(in);	
 	return 0;
 }
 
-Graph *graph_create()
+Graph *graph_create(int num)
 {
-	
 	Graph *g = malloc(sizeof(Graph));
 	if (g == NULL) {
-		return NULL;
+		free(g);
+		return 0;
 	}
-	
+	g->sity = num;
 	g->data = malloc(sizeof(int) * g->sity * g->sity);
 	if (g->data == NULL) {
 		free(g);
@@ -56,7 +82,6 @@ Graph *graph_create()
 		free(g);
 		return NULL;
 	}
-
 	return g;
 }
 
@@ -235,7 +260,7 @@ int max_distance(Graph *g, int vertex1, int vertex2, Results *res)
 	res->ind_max_or_min_path = malloc(sizeof(int) * g->sity * 2);
 	if (res->ind_max_or_min_path == NULL) {
 		results_free(res);
-		return NULL;
+		return -1;
 	}
 	all_paths(vertex1, vertex2, g, res);
 
@@ -281,7 +306,7 @@ int min_distance(Graph *g, int vertex1, int vertex2, Results *res)
 	res->ind_max_or_min_path = malloc(sizeof(int)*g->sity * 2);
 	if (res->ind_max_or_min_path == NULL) {
 		results_free(res);
-		return NULL;
+		return -1;
 	}
 	all_paths(vertex1, vertex2, g, res);
 
