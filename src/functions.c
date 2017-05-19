@@ -1,21 +1,50 @@
 #include "graph.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
+#include <ctype.h>
+#include <string.h>
 
-Graph *graph_create()
+int input_validation(Graph *g)
 {
 	FILE *in = fopen("graph.txt", "r");
 	if (in == NULL) {
 		return 0;
 	}
+	//кол-во вершин
+	char city[3];
+	fscanf(in, "%c", city);
+	int prov = 1;
+	for (int  i = 0; i < strlen(city); i++) {
+		if (!(isdigit(city[i]))) {
+			prov = 0;
+		}
+	}
+	if (prov == 1) {
+		g->sity = atoi(city);
+	}
+
+	//Запись городов
+	for (int i = 0; i < g->sity; i++) {
+		fscanf(in, "%d", &g->vertex[i]);
+	}
+	//Запись вес ребер
+	for (int i = 0; i < g->sity * g->sity; i++) {
+		fscanf(in, "%d", &g->data[i]);
+	}
+
+	fclose(in);	
+	return 0;
+}
+
+Graph *graph_create()
+{
 	
 	Graph *g = malloc(sizeof(Graph));
 	if (g == NULL) {
 		return NULL;
 	}
 	
-	fscanf(in, "%d", &g->sity);
-
 	g->data = malloc(sizeof(int) * g->sity * g->sity);
 	if (g->data == NULL) {
 		free(g);
@@ -27,17 +56,6 @@ Graph *graph_create()
 		free(g);
 		return NULL;
 	}
-	
-	//Запись городов
-	for (int i = 0; i < g->sity; i++) {
-		fscanf(in, "%d", &g->vertex[i]);
-	}
-
-	for (int i = 0; i < g->sity * g->sity; i++) {
-		fscanf(in, "%d", &g->data[i]);
-	}
-
-	fclose(in);
 
 	return g;
 }
@@ -226,7 +244,7 @@ int max_distance(Graph *g, int vertex1, int vertex2, Results *res)
 
 int min_sum(Graph *g, Results *res) 
 {
-	int min = 10000;
+	int min = INT_MAX;
 	int sum = 0;
 	int ind = 0;
 	for (int i = 0; i < res->ind_path; i++) {
@@ -250,6 +268,10 @@ int min_sum(Graph *g, Results *res)
 		}
 		sum = 0;
 	}
+	if (min == INT_MAX) {
+		min = 0;
+	}
+
 	return min;
 }
 

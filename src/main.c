@@ -6,12 +6,12 @@ int main()
 {
 	int act, vertex1, vertex2, paths;
 	Graph *g;
-
+	//должна быть проверка кол-ва ребер, потом создание графа и уже потом проверка и запись
 	g = graph_create();
 	if (g == NULL) {
 		graph_free(g);
 	}
-
+	input_validation(g);
 	Results *res = results_create(g);
 
 	printf("Меню\n");
