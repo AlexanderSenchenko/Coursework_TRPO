@@ -1,2 +1,4 @@
 bin/graph
+functions.o
+main.o
 *.png
