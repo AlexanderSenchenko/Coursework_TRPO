@@ -31,5 +31,6 @@ void free_max_or_min_paths(Results *res);
 int min_distance(Graph *g, int vertex1, int vertex2, Results *res);
 int min_sum(Graph *g, Results *res);
 void create_graph_image(Graph *g);
+void results_free(Results *res);
 
 #endif

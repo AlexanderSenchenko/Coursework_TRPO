@@ -69,6 +69,7 @@ int main()
 	}
 	printf("\n");
 	*/
-
+	graph_free(g);
+	results_free(res);
 	return 0;
 }

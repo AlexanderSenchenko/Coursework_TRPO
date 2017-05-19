@@ -37,7 +37,7 @@ Graph *graph_create()
 		fscanf(in, "%d", &g->data[i]);
 	}
 
-	//fclose(in);
+	fclose(in);
 
 	return g;
 }
@@ -45,8 +45,20 @@ Graph *graph_create()
 Results *results_create(Graph *g)
 {
 	Results *res = malloc(sizeof(Results));
-	res->paths = malloc(sizeof(int) * g->sity);
-	res->buf_path = malloc(sizeof(int) * (g->sity + 1));
+	if (res == NULL) {
+		results_free(res);
+		return NULL;
+	}
+	res->paths = malloc(sizeof(int) * g->sity * 2);
+	if (res->paths == NULL) {
+		results_free(res);
+		return NULL;
+	}
+	res->buf_path = malloc(sizeof(int) * g->sity * 2);
+	if (res->buf_path == NULL) {
+		results_free(res);
+		return NULL;
+	}
 	for (int i = 0; i < g->sity + 1; i++) {
 		res->buf_path[i] = 0;
 	}
@@ -63,6 +75,19 @@ void graph_free(Graph *g)
 	}
 }
 
+void results_free(Results *res)
+{
+	if (res != NULL){
+		for (int i = 0; i < res->ind_path; i++) {
+			free(res->paths[i].vert);
+		}
+		free(res->paths);
+		free(res->buf_path);
+		free(res->ind_max_or_min_path);
+		free(res);
+	}
+}
+
 int get_item(int i, int j, Graph *g)
 {
 	return i * g->sity + j;
@@ -76,7 +101,6 @@ int all_paths(int a, int b, Graph *g, Results *res)
 		mass[i] = 0;
 	}
 	path_in_graph(a - 1, b, g, mass, z, res);
-
 	return res->ind_path;
 }
 
@@ -109,11 +133,9 @@ void path_in_graph(int a, int b, Graph *g, int mass[], int z, Results *res)
 
 void create_all_path(Results *res, Graph *g)
 {
-	if (res->paths[res->ind_path].vert == NULL) {
-		res->paths[res->ind_path].vert = malloc(sizeof(int) * (g->sity + 1));
-		for (int i = 0; i < g->sity + 1; i++) {
-			res->paths[res->ind_path].vert[i] = 0;
-		}
+	res->paths[res->ind_path].vert = malloc(sizeof(int) * g->sity * 2);
+	for (int i = 0; i < g->sity + 1; i++) {
+		res->paths[res->ind_path].vert[i] = 0;
 	}
 	for (int i = 0; i < g->sity + 1; i++) {
 		res->paths[res->ind_path].vert[i] = res->buf_path[i];
@@ -192,7 +214,11 @@ int max_sum(Graph *g, Results *res)
 int max_distance(Graph *g, int vertex1, int vertex2, Results *res)
 {
 	res->count = 0;
-	res->ind_max_or_min_path = malloc(sizeof(int)*g->sity * 2);
+	res->ind_max_or_min_path = malloc(sizeof(int) * g->sity * 2);
+	if (res->ind_max_or_min_path == NULL) {
+		results_free(res);
+		return NULL;
+	}
 	all_paths(vertex1, vertex2, g, res);
 
 	return max_sum(g, res);
@@ -231,6 +257,10 @@ int min_distance(Graph *g, int vertex1, int vertex2, Results *res)
 {
 	res->count = 0;
 	res->ind_max_or_min_path = malloc(sizeof(int)*g->sity * 2);
+	if (res->ind_max_or_min_path == NULL) {
+		results_free(res);
+		return NULL;
+	}
 	all_paths(vertex1, vertex2, g, res);
 
 	return min_sum(g, res);
