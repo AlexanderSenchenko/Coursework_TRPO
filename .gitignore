@@ -1,4 +1,5 @@
 bin/graph
 functions.o
 main.o
+*.gv
 *.png

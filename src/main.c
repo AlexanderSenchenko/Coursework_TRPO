@@ -18,6 +18,7 @@ int main()
 	printf("1) Найти минимальное растояние между городами\n");
 	printf("2) Найти максимальное растояние между городами\n");
 	printf("3) Найти колличество различных путей между городами\n");
+	printf("4) Сформировать и вывести граф\n");
 	printf("Выберите дейсвие: ");
 	scanf("%d", &act);
 	
@@ -43,6 +44,10 @@ int main()
 		printf("Кол-во путей из %d в %d: %d\n", vertex1, vertex2, paths);
 		output_path(g, res, act);
 		break;
+	case 4:
+	       	create_graph_image(g);
+		system("dot -Tpng graph.gv -o graph.png");
+		system("xdg-open graph.png ");
 	default:
 		break;
 	}

@@ -235,3 +235,22 @@ int min_distance(Graph *g, int vertex1, int vertex2, Results *res)
 
 	return min_sum(g, res);
 }
+
+void create_graph_image(Graph *g)
+{
+	FILE *out = fopen("graph.gv", "w");
+	if (out == NULL) {
+		return;
+	}
+	int weight;
+	fprintf(out, "digraph HelloWorld {\n");
+	for (int i = 0; i < g->sity; i++) {
+		for (int j = 0; j < g->sity; j++) {
+			if ((weight = g->data[get_item(i, j, g)]) > 0) {
+				fprintf(out, "\t%d -> %d[label=%d];\n", i + 1, j + 1, weight);
+			}
+		}
+	}
+	fprintf(out, "}\n");
+	fclose(out);
+}
