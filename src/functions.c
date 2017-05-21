@@ -5,6 +5,15 @@
 #include <ctype.h>
 #include <string.h>
 
+void menu()
+{
+	printf("Меню\n");
+	printf("1) Найти минимальное растояние между городами\n");
+	printf("2) Найти максимальное растояние между городами\n");
+	printf("3) Найти колличество различных путей между городами\n");
+	printf("Выберите дейсвие: ");
+}
+
 int check_vertex(char str[])
 {
 	//printf("First %s", str);
@@ -114,7 +123,11 @@ Graph *input_validation()
 		printf("Не удалось считать первую строчку\n");
 		fclose(in);
 		return NULL;
-	} 
+	} else if (num_vertex == 1) {
+		printf("Граф не может содержать одну вершину\n");
+		fclose(in);
+		return NULL;
+	}
 	Graph *g;
 	g = graph_create(num_vertex);
 
@@ -215,6 +228,16 @@ void graph_free(Graph *g)
 	}
 }
 
+int get_index(int vertex, Graph *g)
+{	
+	for (int i = 0; i < g->sity; i++) {
+		if (vertex == g->vertex[i]) {	
+			return i + 1;
+		}
+	}
+	return -1;
+}
+
 void results_free(Results *res)
 {
 	if (res != NULL){
@@ -290,7 +313,7 @@ void output_path(Graph *g, Results *res, int act)
 				if (res->paths[i].vert[j] == 0) {
 					continue;
 				}
-				printf("%d ", res->paths[i].vert[j]);
+				printf("%d ", g->vertex[res->paths[i].vert[j] - 1]);
 				if (res->paths[i].vert[j + 1] != 0 && j + 1 != g->sity + 1) {
 					printf("-> ");
 				}
@@ -304,7 +327,7 @@ void output_path(Graph *g, Results *res, int act)
 				if (res->paths[res->ind_max_or_min_path[i]].vert[j] == 0) {
 					continue;
 				}
-				printf("%d ", res->paths[res->ind_max_or_min_path[i]].vert[j]);
+				printf("%d ", g->vertex[res->paths[res->ind_max_or_min_path[i]].vert[j] - 1]);
 				if (res->paths[res->ind_max_or_min_path[i]].vert[j + 1] != 0 && j + 1 != g->sity + 1) {
 					printf("-> ");
 				}

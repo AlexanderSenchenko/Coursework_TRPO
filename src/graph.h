@@ -36,5 +36,7 @@ Graph *input_validation();
 int check_vertex(char str[]);
 int check_city(char str[], int num_vertex, Graph *g);
 int check_matrix(char str[], int num_vertex, Graph *g, int *count);
+int get_index(int vertex, Graph *g);
+void menu();
 
 #endif
