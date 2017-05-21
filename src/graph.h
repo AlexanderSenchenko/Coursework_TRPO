@@ -33,6 +33,7 @@ int min_sum(Graph *g, Results *res);
 void create_graph_image(Graph *g);
 void results_free(Results *res);
 Graph *input_validation();
-int check_vertex();
+int check_vertex(char str[]);
+int check_city(char str[], int num_vertex, Graph *g);
 
 #endif

@@ -41,7 +41,7 @@ int check_city(char str[], int num_vertex, Graph *g)
 	char *pch = strtok(str, "\t\n");
 	while(pch != NULL) {
 		if (strlen(pch) > 3) {
-			printf("Название города %d больше трехзначного числа\n", count+1);
+			printf("Название одного из города  больше трехзначного числа\n");
 			return -1;
 		}
 		for(int i = 0; i < strlen(pch); i++) {
