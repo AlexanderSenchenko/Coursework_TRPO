@@ -145,7 +145,17 @@ Graph *input_validation()
 		graph_free(g);
 		return NULL;
 	}
-
+	for (int i = 0; i < g->sity; i++) {
+		for (int j = i + 1; j < g->sity; j++) {
+			if (g->vertex[i] == g->vertex[j]) {
+				printf("Вы ввели два одинаковых города\n");
+				fclose(in);
+				graph_free(g);
+				return NULL;
+			}
+		}
+		
+	}
 	//Запись матрицы и проверка матрицы
 	int count = 0;
 	for (int i = 0; i < num_vertex; i++) { 
