@@ -9,10 +9,6 @@ int main()
 	if ((g = input_validation()) == NULL) {
 		return 0;
 	}
-	for (int i = 0; i < g->sity; i++) {
-		printf("%d ", g->vertex[i]);
-	}
-	printf("\n");
 
 	Results *res = results_create(g);
 
@@ -54,23 +50,6 @@ int main()
 		break;
 	}
 
-	/*
-	//Вывод городов
-	printf("\t");
-	for (int i = 0; i < 5; i++) {
-		printf("%d\t", arr_city[i]);
-	}
-	printf("\n");
-	
-
-	
-	//Вывод мтрицы связность + столбец городов
-	for (int i = 0; i < 25; i++) {
-		//printf("%d\t", arr_city[i]);
-		printf("%d\t", v->data[i]);
-	}
-	printf("\n");
-	*/
 	graph_free(g);
 	results_free(res);
 	return 0;

@@ -7,7 +7,7 @@
 
 int check_vertex(char str[])
 {
-	printf("First %s", str);
+	//printf("First %s", str);
 	if (strlen(str)  > 4) {
 		printf("Вы ввели не корректное число вершин\n");
 		return -1;
@@ -32,7 +32,7 @@ int check_vertex(char str[])
 
 int check_city(char str[], int num_vertex, Graph *g)
 {
-	printf("Second %s", str);
+	//printf("Second %s", str);
 	if (strlen(str)  > num_vertex * 4) {
 		printf("Превышен размер второй строки\n");
 		return -1;
@@ -50,18 +50,49 @@ int check_city(char str[], int num_vertex, Graph *g)
 				return -1;
 			}
 		}
-		printf("%s\n", pch);
+		//printf("%s\n", pch);	
 		g->vertex[count] = atoi(pch);
 		pch = strtok(NULL, "\t\n");
 		count++;
 	}
-	printf("%d\n", num_vertex);
-	printf("%d\n", count);
+	//printf("%d\n", num_vertex);
+	//printf("%d\n", count);
 	if (num_vertex != count) {
 		printf("Кол-во вершин не совпадает с кол-вом названий городов\n");
 		return -1;
 	}
 	
+	return 1;
+}
+
+int check_matrix(char str[], int num_vertex, Graph *g, int *count)
+{
+
+	int ind = 0;
+	char *pch = strtok(str, "\t\n");
+	while(pch != NULL) {
+		//printf("%s ", pch);
+		if ((strlen(pch) > 3) || (strlen(pch)  == 0)) {
+			printf("Вес вершины больше трехзначного числа или числа нет\n");
+			return -1;
+		}
+		for(int i = 0; i < strlen(pch); i++) {
+			if (!(isdigit(pch[i]))) {
+				printf("Вес ребра не число, либо вес отрицательный\n");
+				return -1;
+			}
+		}	
+		g->data[*count] = atoi(pch);
+		//printf("%d\n", g->data[*count]);
+		pch = strtok(NULL, "\t\n");
+		(*count)++;
+		ind++;
+	}
+	if (ind != num_vertex) {
+		printf("Нарушена структура матрица\n");
+		return -1;
+	}
+
 	return 1;
 }
 
@@ -71,7 +102,7 @@ Graph *input_validation()
 	if (in == NULL) {
 		return 0;
 	}
-	//Считываем кол-во вершин, первая строка
+	//Считываем кол-во вершин и тут же проверяем, первая строка
 	char vertex[5];
 	if (fgets(vertex, 6, in) == NULL) {
 		printf("Добавьте в файл кол-во вершин до 1000\n");
@@ -87,7 +118,7 @@ Graph *input_validation()
 	Graph *g;
 	g = graph_create(num_vertex);
 
-	//Запись городов, считываем вторую строку
+	//Запись названия городов и сразу же проверка, считываем вторую строку
 	char name_city[num_vertex * 5];	
 	if (fgets(name_city, (num_vertex * 5) + 1, in) == NULL) {
 		printf("Добавьте в файл названия вершин\n");
@@ -102,9 +133,23 @@ Graph *input_validation()
 		return NULL;
 	}
 
-	//Запись вес ребер
-	for (int i = 0; i < g->sity * g->sity; i++) {
-		fscanf(in, "%d", &g->data[i]);
+	//Запись матрицы и проверка матрицы
+	int count = 0;
+	for (int i = 0; i < num_vertex; i++) { 
+		char name_city[num_vertex * 5];	
+		if (fgets(name_city, (num_vertex * 5) + 1, in) == NULL) {
+			printf("Нарушена матрица,возможно не хватает строки\n");
+			fclose(in);
+			graph_free(g);
+			return NULL;
+		}
+		if (check_matrix(name_city, num_vertex, g, &count) == -1) {
+			printf("Не удалось считать матрицу\n");
+			fclose(in);
+			graph_free(g);
+			return NULL;
+		}
+		//printf("Count = %d\n", count);
 	}
 	fclose(in);	
 	return g;
@@ -124,7 +169,7 @@ Graph *graph_create(int num)
 		return NULL;
 	}
 
-	g->vertex = malloc(sizeof(int) * g->sity);
+	g->vertex = malloc(sizeof(int) * g->sity * 2);
 	if (g->vertex == NULL) {
 		free(g);
 		return NULL;
