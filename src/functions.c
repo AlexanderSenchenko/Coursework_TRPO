@@ -5,29 +5,17 @@
 #include <ctype.h>
 #include <string.h>
 
-int check_vertex()
+int check_vertex(char str[])
 {
-	FILE *in = fopen("graph.txt", "r");
-	if (in == NULL) {
-		return 0;
-	}
-
-	int vertex = 0;
-	char str[5];
-	if (fgets(str, 6, in) == NULL) {
-		printf("Добавьте в файл кол-во вершин до 1000\n");
-		fclose(in);
-		return -1;
-	}
-	fclose(in);
+	printf("First %s", str);
 	if (strlen(str)  > 4) {
-		printf("Вы ввели не корректное число вершин(>999)\n");
+		printf("Вы ввели не корректное число вершин\n");
 		return -1;
 	}
-
+	int vertex;
 	for(int i = 0; i < strlen(str) - 1; i++) {
 		if (!(isdigit(str[i]))) {
-			printf("Кол-во вершин не число\n");
+			printf("Вы ввели не корректное число вершин\n");
 			return -1;
 		}
 	}
@@ -36,31 +24,90 @@ int check_vertex()
 		return vertex;
 	}
 	else {
-		printf("Кол-во вершин равно нулю, либо кол-во вершин отрицательное\n");
+		printf("Кол-во вершин равно нулю\n");
 		return -1;
 	}
+	return vertex;
 }
 
-int input_validation(Graph *g)
+int check_city(char str[], int num_vertex, Graph *g)
+{
+	printf("Second %s", str);
+	if (strlen(str)  > num_vertex * 4) {
+		printf("Превышен размер второй строки\n");
+		return -1;
+	}
+	int count = 0;
+	char *pch = strtok(str, "\t\n");
+	while(pch != NULL) {
+		if (strlen(pch) > 3) {
+			printf("Название города %d больше трехзначного числа\n", count+1);
+			return -1;
+		}
+		for(int i = 0; i < strlen(pch); i++) {
+			if (!(isdigit(pch[i]))) {
+				printf("Название города не число\n");
+				return -1;
+			}
+		}
+		printf("%s\n", pch);
+		g->vertex[count] = atoi(pch);
+		pch = strtok(NULL, "\t\n");
+		count++;
+	}
+	printf("%d\n", num_vertex);
+	printf("%d\n", count);
+	if (num_vertex != count) {
+		printf("Кол-во вершин не совпадает с кол-вом названий городов\n");
+		return -1;
+	}
+	
+	return 1;
+}
+
+Graph *input_validation()
 {
 	FILE *in = fopen("graph.txt", "r");
 	if (in == NULL) {
 		return 0;
 	}
-	int vertex;
-	fscanf(in, "%d", &vertex);
-	//Запись городов
-	for (int i = 0; i < g->sity; i++) {
-		fscanf(in, "%d", &g->vertex[i]);
-		//memset(str1, 0 ,strlen(str1));
+	//Считываем кол-во вершин, первая строка
+	char vertex[5];
+	if (fgets(vertex, 6, in) == NULL) {
+		printf("Добавьте в файл кол-во вершин до 1000\n");
+		fclose(in);
+		return NULL;
 	}
+	int num_vertex = check_vertex(vertex);
+	if ((num_vertex == -1) || (num_vertex < 0)) {
+		printf("Не удалось считать первую строчку\n");
+		fclose(in);
+		return NULL;
+	} 
+	Graph *g;
+	g = graph_create(num_vertex);
+
+	//Запись городов, считываем вторую строку
+	char name_city[num_vertex * 5];	
+	if (fgets(name_city, (num_vertex * 5) + 1, in) == NULL) {
+		printf("Добавьте в файл названия вершин\n");
+		fclose(in);
+		graph_free(g);
+		return NULL;
+	}
+	if (check_city(name_city, num_vertex, g) == -1) {
+		printf("Не удалось считать вторую строчку\n");
+		fclose(in);
+		graph_free(g);
+		return NULL;
+	}
+
 	//Запись вес ребер
 	for (int i = 0; i < g->sity * g->sity; i++) {
 		fscanf(in, "%d", &g->data[i]);
 	}
-	
 	fclose(in);	
-	return 0;
+	return g;
 }
 
 Graph *graph_create(int num)
@@ -99,6 +146,11 @@ Results *results_create(Graph *g)
 	}
 	res->buf_path = malloc(sizeof(int) * g->sity * 2);
 	if (res->buf_path == NULL) {
+		results_free(res);
+		return NULL;
+	}
+	res->ind_max_or_min_path = malloc(sizeof(int)*g->sity * 2);
+	if (res->ind_max_or_min_path == NULL) {
 		results_free(res);
 		return NULL;
 	}
@@ -257,11 +309,6 @@ int max_sum(Graph *g, Results *res)
 int max_distance(Graph *g, int vertex1, int vertex2, Results *res)
 {
 	res->count = 0;
-	res->ind_max_or_min_path = malloc(sizeof(int) * g->sity * 2);
-	if (res->ind_max_or_min_path == NULL) {
-		results_free(res);
-		return -1;
-	}
 	all_paths(vertex1, vertex2, g, res);
 
 	return max_sum(g, res);
@@ -303,11 +350,6 @@ int min_sum(Graph *g, Results *res)
 int min_distance(Graph *g, int vertex1, int vertex2, Results *res)
 {
 	res->count = 0;
-	res->ind_max_or_min_path = malloc(sizeof(int)*g->sity * 2);
-	if (res->ind_max_or_min_path == NULL) {
-		results_free(res);
-		return -1;
-	}
 	all_paths(vertex1, vertex2, g, res);
 
 	return min_sum(g, res);

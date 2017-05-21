@@ -6,21 +6,14 @@ int main()
 {
 	int act, vertex1, vertex2, paths;
 	Graph *g;
+	if ((g = input_validation()) == NULL) {
+		return 0;
+	}
+	for (int i = 0; i < g->sity; i++) {
+		printf("%d ", g->vertex[i]);
+	}
+	printf("\n");
 
-	int num = check_vertex();
-	if (num == -1) {
-		return 0;
-	}
-	g = graph_create(num);
-	if (g == NULL) {
-		graph_free(g);
-		return 0;
-	}
-
-	if (input_validation(g) == -1){
-		free(g);
-		return 0;
-	}
 	Results *res = results_create(g);
 
 	printf("Меню\n");

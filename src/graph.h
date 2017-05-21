@@ -32,7 +32,7 @@ int min_distance(Graph *g, int vertex1, int vertex2, Results *res);
 int min_sum(Graph *g, Results *res);
 void create_graph_image(Graph *g);
 void results_free(Results *res);
-int input_validation(Graph *g);
+Graph *input_validation();
 int check_vertex();
 
 #endif
