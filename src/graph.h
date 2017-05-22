@@ -17,7 +17,7 @@ typedef struct {
 	int count;
 } Results;
 
-Graph *graph_create();
+Graph *graph_create(int num);
 Results *results_create(Graph *g);
 void graph_free(Graph *g);
 int get_item(int i, int j, Graph *g);
@@ -31,5 +31,12 @@ void free_max_or_min_paths(Results *res);
 int min_distance(Graph *g, int vertex1, int vertex2, Results *res);
 int min_sum(Graph *g, Results *res);
 void create_graph_image(Graph *g);
+void results_free(Results *res);
+Graph *input_validation();
+int check_vertex(char str[]);
+int check_city(char str[], int num_vertex, Graph *g);
+int check_matrix(char str[], int num_vertex, Graph *g, int *count);
+int get_index(int vertex, Graph *g);
+void menu();
 
 #endif
