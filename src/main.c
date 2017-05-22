@@ -15,20 +15,21 @@ int main()
 
 	menu();//Menu
 	scanf("%d", &act);
-	printf("Введите города между которыми будем совершать действие.\n");
-	printf("Vertex 1: ");
-	scanf("%d", &vertex1);
-	vert1 = get_index(vertex1, g);
-	printf("Vertex 2: ");
-	scanf("%d", &vertex2);
-	vert2 = get_index(vertex2, g);
-	if ((vert1 == -1) || (vert2 == -1)) {
-		printf("Вы ошиблись при вводе вершин\n");
-		graph_free(g);
-		results_free(res);
-		return 0;		
+	if ((act > 0) && (act < 4)) {
+		printf("Введите города между которыми будем совершать действие.\n");
+		printf("Vertex 1: ");
+		scanf("%d", &vertex1);
+		vert1 = get_index(vertex1, g);
+		printf("Vertex 2: ");
+		scanf("%d", &vertex2);
+		vert2 = get_index(vertex2, g);
+		if ((vert1 == -1) || (vert2 == -1)) {
+			printf("Вы ошиблись при вводе вершин\n");
+			graph_free(g);
+			results_free(res);
+			return 0;		
+		}
 	}
-
 	switch (act) {
 	case 1:
 		printf("Минимальное расстояние между %d и %d: %d\n", vertex1, vertex2, min_distance(g, vert1, vert2, res));
@@ -49,6 +50,11 @@ int main()
 	       	create_graph_image(g);
 		system("dot -Tpng graph.gv -o graph.png");
 		system("xdg-open graph.png ");
+		break;
+	case 5:
+	       	graph_free(g);
+		results_free(res);
+		return 0;
 	default:
 		break;
 	}
