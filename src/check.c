@@ -23,10 +23,6 @@ Graph *input_validation()
 		printf("Не удалось считать первую строчку\n");
 		fclose(in);
 		return NULL;
-	} else if (num_vertex == 1) {
-		printf("Граф не может содержать одну вершину\n");
-		fclose(in);
-		return NULL;
 	}
 	Graph *g;
 	g = graph_create(num_vertex);
@@ -78,26 +74,26 @@ Graph *input_validation()
 	return g;
 }
 
-int check_vertex(char str[])
+int check_vertex(const char str[])
 {
 	//printf("First %s", str);
 	if (strlen(str)  > 4) {
-		printf("Вы ввели не корректное число вершин\n");
+		//printf("Вы ввели не корректное число вершин\n");
 		return -1;
 	}
 	int vertex;
 	for(int i = 0; i < strlen(str) - 1; i++) {
 		if (!(isdigit(str[i]))) {
-			printf("Вы ввели не корректное число вершин\n");
+		//	printf("Вы ввели не корректное число вершин\n");
 			return -1;
 		}
 	}
 	vertex = atoi(str);
-	if ((vertex != 0) && (vertex > 0)) {
+	if ((vertex != 0) && (vertex > 1)) {
 		return vertex;
 	}
 	else {
-		printf("Кол-во вершин равно нулю\n");
+		//printf("Кол-во вершин равно нулю\n");
 		return -1;
 	}
 	return vertex;
