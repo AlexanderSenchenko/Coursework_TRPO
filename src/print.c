@@ -3,6 +3,7 @@
 #include "print.h"
 
 int get_item(int i, int j, Graph *g);
+int get_index(int vertex, Graph *g);
 
 void menu()
 {
@@ -64,4 +65,27 @@ void create_graph_image(Graph *g)
 	}
 	fprintf(out, "}\n");
 	fclose(out);
+}
+
+int check_scan(int *act, int *vertex1, int *vertex2, Graph *g, int *vert1, int *vert2)
+{
+	scanf("%d", act);
+	if ((*act > 0) && (*act < 4)) {
+		printf("Введите города между которыми будем совершать действие.\n");
+		printf("Vertex 1: ");
+		scanf("%d", vertex1);
+		*vert1 = get_index(*vertex1, g);
+		if ((*vert1 == -1)) {
+			printf("Вы ошиблись при вводе вершин\n");
+			return -1;	
+		}
+		printf("Vertex 2: ");
+		scanf("%d", vertex2);
+		*vert2 = get_index(*vertex2, g);
+		if ((*vert2 == -1)) {
+			printf("Вы ошиблись при вводе вершин\n");
+			return -1;	
+		}
+	}
+	return 0;
 }
