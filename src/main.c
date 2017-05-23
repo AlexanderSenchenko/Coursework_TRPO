@@ -1,6 +1,10 @@
 #include "graph.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "print.h"
+#include "check.h"
+
+int get_index(int vertex, Graph *g);
 
 int main()
 {
@@ -20,14 +24,20 @@ int main()
 		printf("Vertex 1: ");
 		scanf("%d", &vertex1);
 		vert1 = get_index(vertex1, g);
-		printf("Vertex 2: ");
-		scanf("%d", &vertex2);
-		vert2 = get_index(vertex2, g);
-		if ((vert1 == -1) || (vert2 == -1)) {
+		if ((vert1 == -1)) {
 			printf("Вы ошиблись при вводе вершин\n");
 			graph_free(g);
 			results_free(res);
-			return 0;		
+			return 0;	
+		}
+		printf("Vertex 2: ");
+		scanf("%d", &vertex2);
+		vert2 = get_index(vertex2, g);
+		if ((vert2 == -1)) {
+			printf("Вы ошиблись при вводе вершин\n");
+			graph_free(g);
+			results_free(res);
+			return 0;	
 		}
 	}
 	switch (act) {
