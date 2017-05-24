@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include "check.h"
+#include "vald.h"
 
 Graph *input_validation()
 {
@@ -41,17 +41,7 @@ Graph *input_validation()
 		graph_free(g);
 		return NULL;
 	}
-	for (int i = 0; i < g->sity; i++) {
-		for (int j = i + 1; j < g->sity; j++) {
-			if (g->vertex[i] == g->vertex[j]) {
-				printf("Вы ввели два одинаковых города\n");
-				fclose(in);
-				graph_free(g);
-				return NULL;
-			}
-		}
-		
-	}
+
 	//Запись матрицы и проверка матрицы
 	int count = 0;
 	for (int i = 0; i < num_vertex; i++) { 
@@ -78,13 +68,13 @@ int check_vertex(const char str[])
 {
 	//printf("First %s", str);
 	if (strlen(str)  > 4) {
-		//printf("Вы ввели не корректное число вершин\n");
+		printf("Вы ввели не корректное число вершин\n");
 		return -1;
 	}
 	int vertex;
 	for(int i = 0; i < strlen(str) - 1; i++) {
 		if (!(isdigit(str[i]))) {
-		//	printf("Вы ввели не корректное число вершин\n");
+			printf("Вы ввели не корректное число вершин\n");
 			return -1;
 		}
 	}
@@ -93,10 +83,9 @@ int check_vertex(const char str[])
 		return vertex;
 	}
 	else {
-		//printf("Кол-во вершин равно нулю\n");
+		printf("Кол-во вершин равно нулю, либо кол-во вершин равно 1\n");
 		return -1;
 	}
-	return vertex;
 }
 
 int check_city(char str[], int num_vertex, Graph *g)
@@ -115,7 +104,7 @@ int check_city(char str[], int num_vertex, Graph *g)
 		}
 		for(int i = 0; i < strlen(pch); i++) {
 			if (!(isdigit(pch[i]))) {
-				printf("Название города не число\n");
+				printf("Название города не число, либо число отрицательное\n");
 				return -1;
 			}
 		}
@@ -130,7 +119,15 @@ int check_city(char str[], int num_vertex, Graph *g)
 		printf("Кол-во вершин не совпадает с кол-вом названий городов\n");
 		return -1;
 	}
-	
+	for (int i = 0; i < g->sity; i++) {
+		for (int j = i + 1; j < g->sity; j++) {
+			if (g->vertex[i] == g->vertex[j]) {
+				printf("Вы ввели два одинаковых города\n");
+				return -1;
+			}
+		}
+		
+	}
 	return 1;
 }
 

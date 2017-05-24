@@ -1,5 +1,5 @@
-#ifndef CHECK_H
-#define CHECK_H
+#ifndef VALD_H
+#define VALD_H
 
 #include "graph.h"
 
