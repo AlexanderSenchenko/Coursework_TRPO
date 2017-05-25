@@ -59,7 +59,7 @@ void create_graph_image(Graph *g)
 	for (int i = 0; i < g->sity; i++) {
 		for (int j = 0; j < g->sity; j++) {
 			if ((weight = g->data[get_item(i, j, g)]) > 0) {
-				fprintf(out, "\t%d -> %d[label=%d];\n", i + 1, j + 1, weight);
+				fprintf(out, "\t%d -> %d[label=%d];\n", g->vertex[i], g->vertex[j], weight);
 			}
 		}
 	}
