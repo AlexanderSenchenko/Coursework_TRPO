@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "print.h"
-#include "check.h"
+#include "vald.h"
 
 int get_index(int vertex, Graph *g);
 

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include "check.h"
+#include "vald.h"
 
 Graph *input_validation()
 {
@@ -21,10 +21,6 @@ Graph *input_validation()
 	int num_vertex = check_vertex(vertex);
 	if ((num_vertex == -1) || (num_vertex < 0)) {
 		printf("Не удалось считать первую строчку\n");
-		fclose(in);
-		return NULL;
-	} else if (num_vertex == 1) {
-		printf("Граф не может содержать одну вершину\n");
 		fclose(in);
 		return NULL;
 	}
@@ -45,17 +41,7 @@ Graph *input_validation()
 		graph_free(g);
 		return NULL;
 	}
-	for (int i = 0; i < g->sity; i++) {
-		for (int j = i + 1; j < g->sity; j++) {
-			if (g->vertex[i] == g->vertex[j]) {
-				printf("Вы ввели два одинаковых города\n");
-				fclose(in);
-				graph_free(g);
-				return NULL;
-			}
-		}
-		
-	}
+
 	//Запись матрицы и проверка матрицы
 	int count = 0;
 	for (int i = 0; i < num_vertex; i++) { 
@@ -78,7 +64,7 @@ Graph *input_validation()
 	return g;
 }
 
-int check_vertex(char str[])
+int check_vertex(const char str[])
 {
 	//printf("First %s", str);
 	if (strlen(str)  > 4) {
@@ -93,14 +79,13 @@ int check_vertex(char str[])
 		}
 	}
 	vertex = atoi(str);
-	if ((vertex != 0) && (vertex > 0)) {
+	if ((vertex != 0) && (vertex > 1)) {
 		return vertex;
 	}
 	else {
-		printf("Кол-во вершин равно нулю\n");
+		printf("Кол-во вершин равно нулю, либо кол-во вершин равно 1\n");
 		return -1;
 	}
-	return vertex;
 }
 
 int check_city(char str[], int num_vertex, Graph *g)
@@ -119,7 +104,7 @@ int check_city(char str[], int num_vertex, Graph *g)
 		}
 		for(int i = 0; i < strlen(pch); i++) {
 			if (!(isdigit(pch[i]))) {
-				printf("Название города не число\n");
+				printf("Название города не число, либо число отрицательное\n");
 				return -1;
 			}
 		}
@@ -134,7 +119,15 @@ int check_city(char str[], int num_vertex, Graph *g)
 		printf("Кол-во вершин не совпадает с кол-вом названий городов\n");
 		return -1;
 	}
-	
+	for (int i = 0; i < g->sity; i++) {
+		for (int j = i + 1; j < g->sity; j++) {
+			if (g->vertex[i] == g->vertex[j]) {
+				printf("Вы ввели два одинаковых города\n");
+				return -1;
+			}
+		}
+		
+	}
 	return 1;
 }
 
