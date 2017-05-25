@@ -1,6 +1,4 @@
-bin/graph
-functions.o
-main.o
-main
+bin/
+build/
 *.gv
 *.png

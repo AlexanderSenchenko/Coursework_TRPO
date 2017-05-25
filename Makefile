@@ -1,17 +1,43 @@
-##.PHOMY: all clean test
+BIN_NAME := graph
+TEST_BIN_NAME := $(BIN_NAME)_test
 
-##all: bin/graph
+SRC_PATH := src
+TEST_PATH := tests
+BIN_PATH := bin
+BUILD_PATH := build
 
-##clean:
-##	rm -rf build/src/*.o
+INCLUDES = -I $(SRC_PATH)/ -I thirdparty/
 
-##bin/graph: build/src/main.o build/src/functions.o src/graph.h
-##	gcc -Wall -Werror build/src/main.o build/src/functions.o -o bin/graph
+SRC_WILD := $(notdir $(wildcard $(addsuffix /*.c, $(SRC_PATH))))
+TEST_SRC_WILD := $(notdir $(wildcard $(addsuffix /*.c, $(TEST_PATH))))
 
-##build/src/main.o: src/main.c src/graph.h
-##	gcc -Wall -Werror -c src/main.c -o build/src/main.o
+CC = gcc
 
-##build/src/functions.o: src/functions.c src/graph.h
-##	gcc -Wall -Werror -c src/functions.c -o build/src/functions.o
-all:
-	gcc -Wall -g -o main src/*.c
+.PHOMY: all
+all: dirs $(BIN_PATH)/$(BIN_NAME) $(BIN_PATH)/$(TEST_BIN_NAME)
+
+$(BIN_PATH)/$(BIN_NAME): $(patsubst %.c, %.o, $(addprefix $(BUILD_PATH)/$(SRC_PATH)/, $(SRC_WILD)))
+	$(CC) -Wall $^ -o $@
+
+$(BIN_PATH)/$(TEST_BIN_NAME): $(patsubst %.c, %.o, $(addprefix $(BUILD_PATH)/$(TEST_PATH)/, $(TEST_SRC_WILD)))
+	$(CC) -Wall $^ -o $@
+	$(BIN_PATH)/$(TEST_BIN_NAME)
+
+$(BUILD_PATH)/$(SRC_PATH)/%.o: $(SRC_PATH)/%.c
+	$(CC) -Wall $(INCLUDES) -MD -c $< -o $@
+
+$(BUILD_PATH)/$(TEST_PATH)/%.o: $(TEST_PATH)/%.c
+	$(CC) -Wall $(INCLUDES) -MD -c $< -o $@
+
+-include &(wildcard *.d)
+
+.PHONY: dirs
+dirs:
+	@mkdir -p $(BUILD_PATH)/$(SRC_PATH)
+	@mkdir -p $(BUILD_PATH)/$(TEST_PATH)
+	@mkdir -p $(BIN_PATH)
+
+.PHOMY: clean
+clean:
+	$(RM) -r $(BUILD_PATH)
+	$(RM) -r $(BIN_PATH)
