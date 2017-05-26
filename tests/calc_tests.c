@@ -1,5 +1,5 @@
-#include "ctest.h"
-#include "graph.h"
+#include <ctest.h>
+#include <graph.h>
 #include <stdio.h>
 #include <stdlib.h>
 
