@@ -5,11 +5,12 @@
 #include <string.h>
 #include "vald.h"
 
-Graph *input_validation()
+Graph *input_validation(char *file_name)
 {
-	FILE *in = fopen("graph.txt", "r");
+	FILE *in = fopen(file_name, "r");
 	if (in == NULL) {
-		return 0;
+		printf("Файл не содержит информации о графе\n");
+		return NULL;
 	}
 	//Считываем кол-во вершин и тут же проверяем, первая строка
 	char vertex[5];

@@ -6,11 +6,15 @@
 
 int get_index(int vertex, Graph *g);
 
-int main()
+int main(int argc, char **argv)
 {
 	int act, vertex1, vertex2, paths, vert1, vert2;
 	Graph *g;
-	if ((g = input_validation()) == NULL) {
+	if (argc != 2) {
+		printf("Файл не найден\n");
+		return 0;
+	}
+	if ((g = input_validation(argv[1])) == NULL) {
 		return 0;
 	}
 
