@@ -20,7 +20,6 @@ int main(int argc, char **argv)
 
 	Results *res = results_create(g);
 
-
 	menu();//Menu
 	if (check_scan(&act, &vertex1, &vertex2, g, &vert1, &vert2) == -1) {
 		graph_free(g);

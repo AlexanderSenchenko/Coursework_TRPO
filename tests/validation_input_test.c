@@ -6,119 +6,119 @@
 //CHECK_VERTEX
 CTEST(check_vertex, single_valued)
 {
-    // Given
-    const char  vertex[5] = "3\n";
+	// Given
+	const char  vertex[5] = "3\n";
 
-    // When
-    const int result = check_vertex(vertex);
+	// When
+	const int result = check_vertex(vertex);
 
-    // Then
-    const int expected = 3;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 3;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(check_vertex, double_digit)
 {
-    // Given
-    const char  vertex[5] = "99\n";
+	// Given
+	const char  vertex[5] = "99\n";
 
-    // When
-    const int result = check_vertex(vertex);
+	// When
+	const int result = check_vertex(vertex);
 
-    // Then
-    const int expected = 99;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 99;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(check_vertex, three_digit)
 {
-    // Given
-    const char  vertex[5] = "999\n";
+	// Given
+	const char  vertex[5] = "999\n";
 
-    // When
-    const int result = check_vertex(vertex);
+	// When
+	const int result = check_vertex(vertex);
 
-    // Then
-    const int expected = 999;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 999;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(check_vertex, four_digit)
 {
-    // Given
-    const char  vertex[5] = "1000\n";
+	// Given
+	const char  vertex[5] = "1000\n";
 
-    // When
-    const int result = check_vertex(vertex);
+	// When
+	const int result = check_vertex(vertex);
 
-    // Then
-    const int expected = -1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = -1;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(check_vertex, negative_digit)
 {
-    // Given
-    const char  vertex[5] = "-5\n";
+	// Given
+	const char  vertex[5] = "-5\n";
 
-    // When
-    const int result = check_vertex(vertex);
+	// When
+	const int result = check_vertex(vertex);
 
-    // Then
-    const int expected = -1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = -1;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(check_vertex, letter)
 {
-    // Given
-    const char  vertex[5] = "a\n";
+	// Given
+	const char  vertex[5] = "a\n";
 
-    // When
-    const int result = check_vertex(vertex);
+	// When
+	const int result = check_vertex(vertex);
 
-    // Then
-    const int expected = -1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = -1;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(check_vertex, one_vertex)
 {
-    // Given
-    const char  vertex[5] = "1\n";
+	// Given
+	const char  vertex[5] = "1\n";
 
-    // When
-    const int result = check_vertex(vertex);
+	// When
+	const int result = check_vertex(vertex);
 
-    // Then
-    const int expected = -1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = -1;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(check_vertex, nothing)
 {
-    // Given
-    const char  vertex[5] = "\n";
+	// Given
+	const char  vertex[5] = "\n";
 
-    // When
-    const int result = check_vertex(vertex);
+	// When
+	const int result = check_vertex(vertex);
 
-    // Then
-    const int expected = -1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = -1;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(check_vertex, null_vertex)
 {
-    // Given
-    const char  vertex[5] = "0\n";
+	// Given
+	const char  vertex[5] = "0\n";
 
-    // When
-    const int result = check_vertex(vertex);
+	// When
+	const int result = check_vertex(vertex);
 
-    // Then
-    const int expected = -1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = -1;
+	ASSERT_EQUAL(expected, result);
 }
 
 //CHECK_CITY
@@ -131,13 +131,13 @@ CTEST(check_city, correct)
 		printf("Не удалось выделить память в тесте\n");
 		exit(EXIT_FAILURE);
 	}
-    char name_city[5 * 5] = "11\t12\t13\t14\t156\n";
-    // When
-    const int result = check_city(name_city, num_vertex, g);
+	char name_city[5 * 5] = "11\t12\t13\t14\t156\n";
+	// When
+	const int result = check_city(name_city, num_vertex, g);
 	graph_free(g);
-    // Then
-    const int expected = 1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 1;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(check_city, uncorrect)
@@ -149,13 +149,13 @@ CTEST(check_city, uncorrect)
 		printf("Не удалось выделить память в тесте\n");
 		exit(EXIT_FAILURE);
 	}
-    char name_city[4 * 5] = "11\t12\t13\t14\t156\n";
-    // When
-    const int result = check_city(name_city, num_vertex, g);
+	char name_city[4 * 5] = "11\t12\t13\t14\t156\n";
+	// When
+	const int result = check_city(name_city, num_vertex, g);
 	graph_free(g);
-    // Then
-    const int expected = -1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = -1;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(check_city, name_city_letter)
@@ -167,13 +167,13 @@ CTEST(check_city, name_city_letter)
 		printf("Не удалось выделить память в тесте\n");
 		exit(EXIT_FAILURE);
 	}
-    char name_city[5 * 5] = "11\t12\t13\tb\t156\n";
-    // When
-    const int result = check_city(name_city, num_vertex, g);
+	char name_city[5 * 5] = "11\t12\t13\tb\t156\n";
+	// When
+	const int result = check_city(name_city, num_vertex, g);
 	graph_free(g);
-    // Then
-    const int expected = -1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = -1;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(check_city, uncorrect_size_line)
@@ -185,13 +185,13 @@ CTEST(check_city, uncorrect_size_line)
 		printf("Не удалось выделить память в тесте\n");
 		exit(EXIT_FAILURE);
 	}
-    char name_city[5 * 5] = "11\t12\t13\tb\t156\t45\t455\n";
-    // When
-    const int result = check_city(name_city, num_vertex, g);
+	char name_city[5 * 5] = "11\t12\t13\tb\t156\t45\t455\n";
+	// When
+	const int result = check_city(name_city, num_vertex, g);
 	graph_free(g);
-    // Then
-    const int expected = -1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = -1;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(check_city, name_city_four_digit)
@@ -203,13 +203,13 @@ CTEST(check_city, name_city_four_digit)
 		printf("Не удалось выделить память в тесте\n");
 		exit(EXIT_FAILURE);
 	}
-    char name_city[5 * 5] = "11\t12\t1000\t6\t156\n";
-    // When
-    const int result = check_city(name_city, num_vertex, g);
+	char name_city[5 * 5] = "11\t12\t1000\t6\t156\n";
+	// When
+	const int result = check_city(name_city, num_vertex, g);
 	graph_free(g);
-    // Then
-    const int expected = -1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = -1;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(check_city, name_city_negative)
@@ -221,13 +221,13 @@ CTEST(check_city, name_city_negative)
 		printf("Не удалось выделить память в тесте\n");
 		exit(EXIT_FAILURE);
 	}
-    char name_city[5 * 5] = "11\t-12\t1000\t6\t156\n";
-    // When
-    const int result = check_city(name_city, num_vertex, g);
+	char name_city[5 * 5] = "11\t-12\t1000\t6\t156\n";
+	// When
+	const int result = check_city(name_city, num_vertex, g);
 	graph_free(g);
-    // Then
-    const int expected = -1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = -1;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(check_city, same_name_city)
@@ -239,13 +239,13 @@ CTEST(check_city, same_name_city)
 		printf("Не удалось выделить память в тесте\n");
 		exit(EXIT_FAILURE);
 	}
-    char name_city[5 * 5] = "11\t12\t11\t6\t156\n";
-    // When
-    const int result = check_city(name_city, num_vertex, g);
+	char name_city[5 * 5] = "11\t12\t11\t6\t156\n";
+	// When
+	const int result = check_city(name_city, num_vertex, g);
 	graph_free(g);
-    // Then
-    const int expected = -1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = -1;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(check_city, all_name_city_three_digit)
@@ -257,13 +257,13 @@ CTEST(check_city, all_name_city_three_digit)
 		printf("Не удалось выделить память в тесте\n");
 		exit(EXIT_FAILURE);
 	}
-    char name_city[5 * 5] = "111\t112\t113\t116\t156\n";
-    // When
-    const int result = check_city(name_city, num_vertex, g);
+	char name_city[5 * 5] = "111\t112\t113\t116\t156\n";
+	// When
+	const int result = check_city(name_city, num_vertex, g);
 	graph_free(g);
-    // Then
-    const int expected = 1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 1;
+	ASSERT_EQUAL(expected, result);
 }
 
 //CHECK_MATRIX
@@ -277,13 +277,13 @@ CTEST(check_matrix, correct)
 		printf("Не удалось выделить память в тесте\n");
 		exit(EXIT_FAILURE);
 	}
-    char name_city[5 * 5] = "111\t112\t113\t116\t156\n";
-    // When
-    const int result = check_matrix(name_city, num_vertex, g, &count);
+	char name_city[5 * 5] = "111\t112\t113\t116\t156\n";
+	// When
+	const int result = check_matrix(name_city, num_vertex, g, &count);
 	graph_free(g);
-    // Then
-    const int expected = 1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 1;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(check_matrix, uncorrect)
@@ -296,13 +296,13 @@ CTEST(check_matrix, uncorrect)
 		printf("Не удалось выделить память в тесте\n");
 		exit(EXIT_FAILURE);
 	}
-    char name_city[5 * 5] = "111\t112\t113\t116\t156\n";
-    // When
-    const int result = check_matrix(name_city, num_vertex, g, &count);
+	char name_city[5 * 5] = "111\t112\t113\t116\t156\n";
+	// When
+	const int result = check_matrix(name_city, num_vertex, g, &count);
 	graph_free(g);
-    // Then
-    const int expected = -1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = -1;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(check_matrix, weight_vertex_four_digit)
@@ -315,13 +315,13 @@ CTEST(check_matrix, weight_vertex_four_digit)
 		printf("Не удалось выделить память в тесте\n");
 		exit(EXIT_FAILURE);
 	}
-    char name_city[5 * 5] = "111\t112\t113\t116\t1564\n";
-    // When
-    const int result = check_matrix(name_city, num_vertex, g, &count);
+	char name_city[5 * 5] = "111\t112\t113\t116\t1564\n";
+	// When
+	const int result = check_matrix(name_city, num_vertex, g, &count);
 	graph_free(g);
-    // Then
-    const int expected = -1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = -1;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(check_matrix, negative_digit)
@@ -334,13 +334,13 @@ CTEST(check_matrix, negative_digit)
 		printf("Не удалось выделить память в тесте\n");
 		exit(EXIT_FAILURE);
 	}
-    char name_city[5 * 5] = "111\t112\t113\t116\t-98\n";
-    // When
-    const int result = check_matrix(name_city, num_vertex, g, &count);
+	char name_city[5 * 5] = "111\t112\t113\t116\t-98\n";
+	// When
+	const int result = check_matrix(name_city, num_vertex, g, &count);
 	graph_free(g);
-    // Then
-    const int expected = -1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = -1;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(check_matrix, weight_letter)
@@ -353,11 +353,11 @@ CTEST(check_matrix, weight_letter)
 		printf("Не удалось выделить память в тесте\n");
 		exit(EXIT_FAILURE);
 	}
-    char name_city[5 * 5] = "111\t112\tb3\t116\t98\n";
-    // When
-    const int result = check_matrix(name_city, num_vertex, g, &count);
+	char name_city[5 * 5] = "111\t112\tb3\t116\t98\n";
+	// When
+	const int result = check_matrix(name_city, num_vertex, g, &count);
 	graph_free(g);
-    // Then
-    const int expected = -1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = -1;
+	ASSERT_EQUAL(expected, result);
 }
