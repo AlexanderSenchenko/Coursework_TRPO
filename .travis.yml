@@ -1,7 +1,13 @@
 os:
  - linux
 language: c
+sudo: false
 compiler:
  - gcc
+install: true
+
 script:
- - make test
+ - make 
+ - make test 
+env:
+  - CFLAGS=--std=c99

@@ -1,5 +1,5 @@
-#include "ctest.h"
-#include "vald.h"
+#include <ctest.h>
+#include <vald.h>
 #include <stdio.h>
 #include <stdlib.h>
 
