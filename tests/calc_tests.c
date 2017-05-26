@@ -1,5 +1,5 @@
-#include "ctest.h"
-#include "graph.h"
+#include <ctest.h>
+#include <graph.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -23,15 +23,15 @@ CTEST(all_paths, ind_1_1)
 	for (int i = 0; i < 25; i++) {
 		g->data[i] = data[i];
 	}
-    // When
+	// When
 	int ind1 = 1;
 	int ind2 = 1;
-    const int result = all_paths(ind1, ind2, g, res);
+	const int result = all_paths(ind1, ind2, g, res);
 	graph_free(g);
 	results_free(res);
-    // Then
-    const int expected = 3;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 3;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(all_paths, ind_1_2)
@@ -50,15 +50,15 @@ CTEST(all_paths, ind_1_2)
 	for (int i = 0; i < 25; i++) {
 		g->data[i] = data[i];
 	}
-    // When
+	// When
 	int ind1 = 2;
 	int ind2 = 3;
-    const int result = all_paths(ind1, ind2, g, res);
+	const int result = all_paths(ind1, ind2, g, res);
 	graph_free(g);
 	results_free(res);
-    // Then
-    const int expected = 2;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 2;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(all_paths, ind_1_3)
@@ -77,15 +77,15 @@ CTEST(all_paths, ind_1_3)
 	for (int i = 0; i < 25; i++) {
 		g->data[i] = data[i];
 	}
-    // When
+	// When
 	int ind1 = 1;
 	int ind2 = 3;
-    const int result = all_paths(ind1, ind2, g, res);
+	const int result = all_paths(ind1, ind2, g, res);
 	graph_free(g);
 	results_free(res);
-    // Then
-    const int expected = 5;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 5;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(all_paths, ind_1_4)
@@ -104,15 +104,15 @@ CTEST(all_paths, ind_1_4)
 	for (int i = 0; i < 25; i++) {
 		g->data[i] = data[i];
 	}
-    // When
+	// When
 	int ind1 = 1;
 	int ind2 = 4;
-    const int result = all_paths(ind1, ind2, g, res);
+	const int result = all_paths(ind1, ind2, g, res);
 	graph_free(g);
 	results_free(res);
-    // Then
-    const int expected = 3;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 3;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(all_paths, ind_1_5)
@@ -131,15 +131,15 @@ CTEST(all_paths, ind_1_5)
 	for (int i = 0; i < 25; i++) {
 		g->data[i] = data[i];
 	}
-    // When
+	// When
 	int ind1 = 1;
 	int ind2 = 5;
-    const int result = all_paths(ind1, ind2, g, res);
+	const int result = all_paths(ind1, ind2, g, res);
 	graph_free(g);
 	results_free(res);
-    // Then
-    const int expected = 1;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 1;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(max_distance, ind_1_1)
@@ -158,15 +158,15 @@ CTEST(max_distance, ind_1_1)
 	for (int i = 0; i < 25; i++) {
 		g->data[i] = data[i];
 	}
-    // When
+	// When
 	int ind1 = 1;
 	int ind2 = 1;
-    const int result = max_distance(g, ind1, ind2, res);
+	const int result = max_distance(g, ind1, ind2, res);
 	graph_free(g);
 	results_free(res);
-    // Then
-    const int expected = 47;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 47;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(max_distance, ind_1_2)
@@ -185,15 +185,15 @@ CTEST(max_distance, ind_1_2)
 	for (int i = 0; i < 25; i++) {
 		g->data[i] = data[i];
 	}
-    // When
+	// When
 	int ind1 = 1;
 	int ind2 = 2;
-    const int result = max_distance(g, ind1, ind2, res);
+	const int result = max_distance(g, ind1, ind2, res);
 	graph_free(g);
 	results_free(res);
-    // Then
-    const int expected = 40;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 40;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(max_distance, ind_1_3)
@@ -212,15 +212,15 @@ CTEST(max_distance, ind_1_3)
 	for (int i = 0; i < 25; i++) {
 		g->data[i] = data[i];
 	}
-    // When
+	// When
 	int ind1 = 1;
 	int ind2 = 3;
-    const int result = max_distance(g, ind1, ind2, res);
+	const int result = max_distance(g, ind1, ind2, res);
 	graph_free(g);
 	results_free(res);
-    // Then
-    const int expected = 62;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 62;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(max_distance, ind_1_4)
@@ -239,15 +239,15 @@ CTEST(max_distance, ind_1_4)
 	for (int i = 0; i < 25; i++) {
 		g->data[i] = data[i];
 	}
-    // When
+	// When
 	int ind1 = 1;
 	int ind2 = 4;
-    const int result = max_distance(g, ind1, ind2, res);
+	const int result = max_distance(g, ind1, ind2, res);
 	graph_free(g);
 	results_free(res);
-    // Then
-    const int expected = 46;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 46;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(max_distance, ind_1_5)
@@ -266,15 +266,15 @@ CTEST(max_distance, ind_1_5)
 	for (int i = 0; i < 25; i++) {
 		g->data[i] = data[i];
 	}
-    // When
+	// When
 	int ind1 = 1;
 	int ind2 = 5;
-    const int result = max_distance(g, ind1, ind2, res);
+	const int result = max_distance(g, ind1, ind2, res);
 	graph_free(g);
 	results_free(res);
-    // Then
-    const int expected = 26;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 26;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(min_distance, ind_1_1)
@@ -293,15 +293,15 @@ CTEST(min_distance, ind_1_1)
 	for (int i = 0; i < 25; i++) {
 		g->data[i] = data[i];
 	}
-    // When
+	// When
 	int ind1 = 1;
 	int ind2 = 1;
-    const int result = min_distance(g, ind1, ind2, res);
+	const int result = min_distance(g, ind1, ind2, res);
 	graph_free(g);
 	results_free(res);
-    // Then
-    const int expected = 38;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 38;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(min_distance, ind_1_2)
@@ -320,15 +320,15 @@ CTEST(min_distance, ind_1_2)
 	for (int i = 0; i < 25; i++) {
 		g->data[i] = data[i];
 	}
-    // When
+	// When
 	int ind1 = 1;
 	int ind2 = 2;
-    const int result = min_distance(g, ind1, ind2, res);
+	const int result = min_distance(g, ind1, ind2, res);
 	graph_free(g);
 	results_free(res);
-    // Then
-    const int expected = 31;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 31;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(min_distance, ind_1_3)
@@ -347,15 +347,15 @@ CTEST(min_distance, ind_1_3)
 	for (int i = 0; i < 25; i++) {
 		g->data[i] = data[i];
 	}
-    // When
+	// When
 	int ind1 = 1;
 	int ind2 = 3;
-    const int result = min_distance(g, ind1, ind2, res);
+	const int result = min_distance(g, ind1, ind2, res);
 	graph_free(g);
 	results_free(res);
-    // Then
-    const int expected = 51;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 51;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(min_distance, ind_1_4)
@@ -374,15 +374,15 @@ CTEST(min_distance, ind_1_4)
 	for (int i = 0; i < 25; i++) {
 		g->data[i] = data[i];
 	}
-    // When
+	// When
 	int ind1 = 1;
 	int ind2 = 4;
-    const int result = min_distance(g, ind1, ind2, res);
+	const int result = min_distance(g, ind1, ind2, res);
 	graph_free(g);
 	results_free(res);
-    // Then
-    const int expected = 37;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 37;
+	ASSERT_EQUAL(expected, result);
 }
 
 CTEST(min_distance, ind_1_5)
@@ -401,13 +401,13 @@ CTEST(min_distance, ind_1_5)
 	for (int i = 0; i < 25; i++) {
 		g->data[i] = data[i];
 	}
-    // When
+	// When
 	int ind1 = 1;
 	int ind2 = 5;
-    const int result = min_distance(g, ind1, ind2, res);
+	const int result = min_distance(g, ind1, ind2, res);
 	graph_free(g);
 	results_free(res);
-    // Then
-    const int expected = 26;
-    ASSERT_EQUAL(expected, result);
+	// Then
+	const int expected = 26;
+	ASSERT_EQUAL(expected, result);
 }

@@ -5,11 +5,12 @@
 #include <string.h>
 #include "vald.h"
 
-Graph *input_validation()
+Graph *input_validation(char *file_name)
 {
-	FILE *in = fopen("graph.txt", "r");
+	FILE *in = fopen(file_name, "r");
 	if (in == NULL) {
-		return 0;
+		printf("Файл не содержит информации о графе\n");
+		return NULL;
 	}
 	//Считываем кол-во вершин и тут же проверяем, первая строка
 	char vertex[5];
@@ -58,7 +59,6 @@ Graph *input_validation()
 			graph_free(g);
 			return NULL;
 		}
-		//printf("Count = %d\n", count);
 	}
 	fclose(in);	
 	return g;
@@ -66,7 +66,6 @@ Graph *input_validation()
 
 int check_vertex(const char str[])
 {
-	//printf("First %s", str);
 	if (strlen(str)  > 4) {
 		printf("Вы ввели не корректное число вершин\n");
 		return -1;
@@ -90,7 +89,6 @@ int check_vertex(const char str[])
 
 int check_city(char str[], int num_vertex, Graph *g)
 {
-	//printf("Second %s", str);
 	if (strlen(str)  > num_vertex * 4) {
 		printf("Превышен размер второй строки\n");
 		return -1;
@@ -108,13 +106,10 @@ int check_city(char str[], int num_vertex, Graph *g)
 				return -1;
 			}
 		}
-		//printf("%s\n", pch);	
 		g->vertex[count] = atoi(pch);
 		pch = strtok(NULL, "\t\n");
 		count++;
 	}
-	//printf("%d\n", num_vertex);
-	//printf("%d\n", count);
 	if (num_vertex != count) {
 		printf("Кол-во вершин не совпадает с кол-вом названий городов\n");
 		return -1;
@@ -137,7 +132,6 @@ int check_matrix(char str[], int num_vertex, Graph *g, int *count)
 	int ind = 0;
 	char *pch = strtok(str, "\t\n");
 	while(pch != NULL) {
-		//printf("%s ", pch);
 		if ((strlen(pch) > 3) || (strlen(pch)  == 0)) {
 			printf("Вес вершины больше трехзначного числа или числа нет\n");
 			return -1;
@@ -149,7 +143,6 @@ int check_matrix(char str[], int num_vertex, Graph *g, int *count)
 			}
 		}	
 		g->data[*count] = atoi(pch);
-		//printf("%d\n", g->data[*count]);
 		pch = strtok(NULL, "\t\n");
 		(*count)++;
 		ind++;
@@ -158,6 +151,5 @@ int check_matrix(char str[], int num_vertex, Graph *g, int *count)
 		printf("Нарушена структура матрица\n");
 		return -1;
 	}
-
 	return 1;
 }
