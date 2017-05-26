@@ -1,12 +1,5 @@
-os:
- - linux
+os: linux
 language: c
-sudo: false
-compiler:
- - gcc
-install: true
-
-script:
- - make 
- - make test 
+compiler: gcc
+script: make
 
