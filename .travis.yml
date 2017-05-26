@@ -9,5 +9,4 @@ install: true
 script:
  - make 
  - make test 
-env:
-  - CFLAGS=--std=c99
+

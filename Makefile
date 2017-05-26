@@ -6,7 +6,7 @@ TEST_PATH := tests
 BIN_PATH := bin
 BUILD_PATH := build
 
-INCLUDES = -I $(SRC_PATH)/ -I thirdparty/
+INCLUDES = -I $(SRC_PATH)/ -I thirdparty/ -std=c99
 
 SRC_WILD := $(addprefix $(BUILD_PATH)/$(SRC_PATH)/, $(notdir $(wildcard $(addsuffix /*.c, $(SRC_PATH)))))
 
@@ -16,7 +16,7 @@ CC = gcc
 all: dirs $(BIN_PATH)/$(BIN_NAME)
 
 $(BIN_PATH)/$(BIN_NAME): $(patsubst %.c, %.o, $(SRC_WILD))
-	$(CC) -Wall $^ -o $@
+	$(CC) -Wall  $^ -o $@
 
 $(BUILD_PATH)/$(SRC_PATH)/%.o: $(SRC_PATH)/%.c
 	$(CC) -Wall $(INCLUDES) -MMD -c $< -o $@
