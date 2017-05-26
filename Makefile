@@ -9,27 +9,31 @@ BUILD_PATH := build
 INCLUDES = -I $(SRC_PATH)/ -I thirdparty/
 
 SRC_WILD := $(addprefix $(BUILD_PATH)/$(SRC_PATH)/, $(notdir $(wildcard $(addsuffix /*.c, $(SRC_PATH)))))
-TEST_SRC_WILD := $(addprefix $(BUILD_PATH)/$(TEST_PATH)/, $(notdir $(wildcard $(addsuffix /*.c, $(TEST_PATH)))))
-TEST_SRC_WILD += $(BUILD_PATH)/$(TEST_PATH)/graph.c $(BUILD_PATH)/$(TEST_PATH)/vald.c
 
 CC = gcc
 
 .PHOMY: all
-all: dirs $(BIN_PATH)/$(BIN_NAME) $(BIN_PATH)/$(TEST_BIN_NAME)
+all: dirs $(BIN_PATH)/$(BIN_NAME)
 
 $(BIN_PATH)/$(BIN_NAME): $(patsubst %.c, %.o, $(SRC_WILD))
 	$(CC) -Wall $^ -o $@
+
+$(BUILD_PATH)/$(SRC_PATH)/%.o: $(SRC_PATH)/%.c
+	$(CC) -Wall $(INCLUDES) -MMD -c $< -o $@
+
+.PHONY: test
+test: dirs $(BIN_PATH)/$(TEST_BIN_NAME)
+
+TEST_SRC_WILD := $(addprefix $(BUILD_PATH)/$(TEST_PATH)/, $(notdir $(wildcard $(addsuffix /*.c, $(TEST_PATH)))))
+TEST_SRC_WILD += $(BUILD_PATH)/$(TEST_PATH)/graph.c $(BUILD_PATH)/$(TEST_PATH)/vald.c
 
 $(BIN_PATH)/$(TEST_BIN_NAME): $(patsubst %.c, %.o, $(TEST_SRC_WILD))
 	$(CC) -Wall $^ -o $@
 	$(BIN_PATH)/$(TEST_BIN_NAME)
 
-$(BUILD_PATH)/$(SRC_PATH)/%.o: $(SRC_PATH)/%.c
-	$(CC) -Wall $(INCLUDES) -MD -c $< -o $@
-
 VPATH := $(SRC_PATH) $(TEST_PATH)
 $(BUILD_PATH)/$(TEST_PATH)/%.o: %.c
-	$(CC) -Wall $(INCLUDES) -MD -c $< -o $@
+	$(CC) -Wall $(INCLUDES) -MMD -c $< -o $@
 
 -include &(wildcard *.d)
 
